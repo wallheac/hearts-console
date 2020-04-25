@@ -18,12 +18,10 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        Deck deck = new Deck();
-        deck.shuffle();
         List<Player> players = new ArrayList<>();
-        players.addAll(Arrays.asList(new Player(), new Player(), new Player(), new Player()));
-        players.stream().forEach(player -> player.drawHand(deck));
-        Table table = new Table(players);
-        table.play();
+        players.addAll(Arrays.asList(new Player("First"), new Player("Second"), new Player("Third"), new Player("Fourth")));
+        Hearts hearts = new Hearts(players, new Scoreboard());
+        hearts.deal();
+        hearts.play();
     }
 }

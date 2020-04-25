@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Deck {
-    private final List<Card> cards = new ArrayList<>();
+    private List<Card> cards = new ArrayList<>();
 
     public Deck() {
         constructDeck();
@@ -30,16 +30,26 @@ public class Deck {
                 .collect(Collectors.toList()).toString();
     }
 
-    public List<Card> drawHand() {
+    public List<Card> drawHand(int numberOfCards) {
         List<Card> hand = new ArrayList<>();
-        for (int i = 0; i < 13; i++) {
+        for (int i = 0; i < numberOfCards; i++) {
             hand.add(cards.get(i));
         }
         System.err.println(this.toString());
-        cards.subList(0,13).clear();
+        cards.subList(0,numberOfCards).clear();
 
         System.err.println(hand.stream().map(card -> card.toString())
                 .collect(Collectors.toList()).toString());
         return hand;
+    }
+
+    public List<Card> getCards() {
+        return cards;
+    }
+
+    public void removeCard(Suit suit, Rank rank) {
+        this.cards = cards.stream()
+                .filter(card -> !(card.getSuit().equals(suit) && card.getRank().equals(rank)))
+                .collect(Collectors.toList());
     }
 }
