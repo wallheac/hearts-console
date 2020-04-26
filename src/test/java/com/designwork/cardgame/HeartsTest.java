@@ -52,4 +52,58 @@ public class HeartsTest {
         assertThat(hearts.getDeck().getCards(), not(hasItem(new Card(Suit.DIAMONDS, Rank.TWO))));
         assertThat(hearts.getDeck().getCards(), not(hasItem(new Card(Suit.CLUBS, Rank.TWO))));
     }
+
+    @Test
+    public void dealsTenCardsWhenFivePlayers() {
+        players.addAll(Arrays.asList(new Player("Ted"), new Player("Charlotte"), new Player("Fred"),
+                new Player("Amy"), new Player("Jurgen")));
+        hearts = new Hearts(players, new Scoreboard());
+
+        hearts.deal();
+
+        assertThat(players.get(0).getHand().size(), is(10));
+        assertThat(players.get(1).getHand().size(), is(10));
+        assertThat(players.get(2).getHand().size(), is(10));
+        assertThat(players.get(3).getHand().size(), is(10));
+        assertThat(players.get(4).getHand().size(), is(10));
+        assertThat(hearts.getRounds(), is(10));
+    }
+
+    @Test
+    public void dealsThirteenCardsWhenFourPlayers() {
+        players.addAll(Arrays.asList(new Player("Ted"), new Player("Charlotte"), new Player("Fred"),
+                new Player("Amy")));
+        hearts = new Hearts(players, new Scoreboard());
+
+        hearts.deal();
+
+        assertThat(players.get(0).getHand().size(), is(13));
+        assertThat(players.get(1).getHand().size(), is(13));
+        assertThat(players.get(2).getHand().size(), is(13));
+        assertThat(players.get(3).getHand().size(), is(13));
+        assertThat(hearts.getRounds(), is(13));
+    }
+
+    @Test
+    public void dealsSeventeenCardsWhenThreePlayers() {
+        players.addAll(Arrays.asList(new Player("Ted"), new Player("Charlotte"), new Player("Fred")));
+        hearts = new Hearts(players, new Scoreboard());
+
+        hearts.deal();
+
+        assertThat(players.get(0).getHand().size(), is(17));
+        assertThat(players.get(1).getHand().size(), is(17));
+        assertThat(players.get(2).getHand().size(), is(17));
+        assertThat(hearts.getRounds(), is(17));
+    }
+
+    @Test
+    public void setsPlayerWithTwoOfClubsAsActivePlayerWhenThereAreThreePlayers() {
+
+    }
+
+    @Test
+    public void setsPlayerWithThreeOfClubsAsActivePlayerWhenThereAreFivePlayers(){
+
+    }
 }
