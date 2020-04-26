@@ -25,7 +25,7 @@ public class HeartsTest {
     @Test
     public void resetTableResetsRoundsToZeroAndPlayersToEmptyList() {
         players.addAll(Arrays.asList(new Player("Ted"), new Player("Charlotte"), new Player("Fred")));
-        hearts = new Hearts(players, new Scoreboard());
+        hearts = new Hearts(players, new Scoreboard(players));
 
         hearts.resetGame();
 
@@ -36,7 +36,7 @@ public class HeartsTest {
     @Test
     public void removesTwoOfDiamondsWhenThreePlayers() {
         players.addAll(Arrays.asList(new Player("Ted"), new Player("Charlotte"), new Player("Fred")));
-        hearts = new Hearts(players, new Scoreboard());
+        hearts = new Hearts(players, new Scoreboard(players));
 
         assertThat(hearts.getDeck().getCards().size(), is(51));
         assertThat(hearts.getDeck().getCards(), not(hasItem(new Card(Suit.DIAMONDS, Rank.TWO))));
@@ -46,7 +46,7 @@ public class HeartsTest {
     public void removesTwoOfDiamondsAndTwoOfClubsWhenFivePlayers() {
         players.addAll(Arrays.asList(new Player("Ted"), new Player("Charlotte"), new Player("Fred"),
                 new Player("Amy"), new Player("Jurgen")));
-        hearts = new Hearts(players, new Scoreboard());
+        hearts = new Hearts(players, new Scoreboard(players));
 
         assertThat(hearts.getDeck().getCards().size(), is(50));
         assertThat(hearts.getDeck().getCards(), not(hasItem(new Card(Suit.DIAMONDS, Rank.TWO))));
@@ -57,7 +57,7 @@ public class HeartsTest {
     public void dealsTenCardsWhenFivePlayers() {
         players.addAll(Arrays.asList(new Player("Ted"), new Player("Charlotte"), new Player("Fred"),
                 new Player("Amy"), new Player("Jurgen")));
-        hearts = new Hearts(players, new Scoreboard());
+        hearts = new Hearts(players, new Scoreboard(players));
 
         hearts.deal();
 
@@ -73,7 +73,7 @@ public class HeartsTest {
     public void dealsThirteenCardsWhenFourPlayers() {
         players.addAll(Arrays.asList(new Player("Ted"), new Player("Charlotte"), new Player("Fred"),
                 new Player("Amy")));
-        hearts = new Hearts(players, new Scoreboard());
+        hearts = new Hearts(players, new Scoreboard(players));
 
         hearts.deal();
 
@@ -87,7 +87,7 @@ public class HeartsTest {
     @Test
     public void dealsSeventeenCardsWhenThreePlayers() {
         players.addAll(Arrays.asList(new Player("Ted"), new Player("Charlotte"), new Player("Fred")));
-        hearts = new Hearts(players, new Scoreboard());
+        hearts = new Hearts(players, new Scoreboard(players));
 
         hearts.deal();
 
