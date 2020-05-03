@@ -1,5 +1,6 @@
 package com.designwork.cardgame;
 
+import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 public class Hearts extends Game {
 
     private final int rounds;
+    private ByteArrayInputStream in = null;
     private Player activePlayer;
     private Pair<Player, Card> led;
     private List<Pair<Player, Card>> currentTrick = new ArrayList<>();
@@ -30,7 +32,7 @@ public class Hearts extends Game {
     }
 
     private Deck prepDeck(Deck deck, int numberOfPlayers) {
-        if (numberOfPlayers == 3 || numberOfPlayers == 5) {
+          if (numberOfPlayers == 3 || numberOfPlayers == 5) {
             deck.removeCard(Suit.DIAMONDS, Rank.TWO);
         }
         if (numberOfPlayers == 5) {
@@ -41,7 +43,8 @@ public class Hearts extends Game {
     }
 
     public void play() {
-        //active player needs to be the person with the 2 of C (or, if 3 person game, the 3 of C)
+        // active player needs to be the person with the 2 of C (or, if 3 person game,
+        // the 3 of C)
         activePlayer = findStartingPlayer();
         System.out.println("First lead must be the " + (players.size() == 5 ? "3 of Clubs" : "2 of Clubs"));
         for (int i = 0; i < rounds; i++) {
@@ -54,7 +57,7 @@ public class Hearts extends Game {
     private void playRound() {
         for (int i = 0; i < players.size(); i++) {
             printCurrentRoundState();
-            //TODO: for later - validate play (does this abide by the rules of the  game?)
+            // TODO: for later - validate play (does this abide by the rules of the game?)
             Card card = requestPlay(activePlayer);
             if (i == 0) {
                 led = new Pair(activePlayer, card);
@@ -65,7 +68,8 @@ public class Hearts extends Game {
 
         Pair<Player, Card> winner = scoreboard.determineTrickWinner(currentTrick, led);
         winner.getFirst().getTricksTaken().add(winner);
-        System.err.println("winner of round is: " + winner.getFirst().getName() + " with the: " + winner.getSecond().prettyPrint());
+        System.err.println("winner of round is: " + winner.getFirst().getName() + " with the: "
+                + winner.getSecond().prettyPrint());
         activePlayer = winner.getFirst();
         resetTrick();
     }
@@ -94,17 +98,14 @@ public class Hearts extends Game {
     private Player findStartingPlayer() {
         int numberOfPlayers = players.size();
         if (numberOfPlayers == 5) {
-            return players.stream()
-                    .filter(player -> player.getHand()
-                            .contains(Card.ThreeClubs))
+            return players.stream().filter(player -> player.getHand().contains(Card.ThreeClubs))
                     .collect(Collectors.toList()).get(0);
         } else {
-            return players.stream()
-                    .filter(player -> player.getHand()
-                            .contains(Card.TwoClubs))
+            return players.stream().filter(player -> player.getHand().contains(Card.TwoClubs))
                     .collect(Collectors.toList()).get(0);
         }
     }
+
     private void resetTrick() {
         currentTrick = new ArrayList<>();
     }
@@ -113,6 +114,7 @@ public class Hearts extends Game {
         System.out.println("Cards On Table: ");
         currentTrick.stream().forEach(playerCardPair -> System.out.println(playerCardPair.getSecond().prettyPrint()));
     }
+
     public void deal() {
         int numberOfPlayers = players.size();
         int deckSize = deck.getCards().size();
@@ -132,7 +134,7 @@ public class Hearts extends Game {
         return rounds;
     }
 
-    public Pair<Player, Card> getLed () {
+    public Pair<Player, Card> getLed() {
         return led;
     }
 

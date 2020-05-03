@@ -44,8 +44,8 @@ public class HeartsTest {
 
     @Test
     public void removesTwoOfDiamondsAndTwoOfClubsWhenFivePlayers() {
-        players.addAll(Arrays.asList(new Player("Ted"), new Player("Charlotte"), new Player("Fred"),
-                new Player("Amy"), new Player("Jurgen")));
+        players.addAll(Arrays.asList(new Player("Ted"), new Player("Charlotte"), new Player("Fred"), new Player("Amy"),
+                new Player("Jurgen")));
         hearts = new Hearts(players, new Scoreboard(players));
 
         assertThat(hearts.getDeck().getCards().size(), is(50));
@@ -55,8 +55,8 @@ public class HeartsTest {
 
     @Test
     public void dealsTenCardsWhenFivePlayers() {
-        players.addAll(Arrays.asList(new Player("Ted"), new Player("Charlotte"), new Player("Fred"),
-                new Player("Amy"), new Player("Jurgen")));
+        players.addAll(Arrays.asList(new Player("Ted"), new Player("Charlotte"), new Player("Fred"), new Player("Amy"),
+                new Player("Jurgen")));
         hearts = new Hearts(players, new Scoreboard(players));
 
         hearts.deal();
@@ -71,8 +71,8 @@ public class HeartsTest {
 
     @Test
     public void dealsThirteenCardsWhenFourPlayers() {
-        players.addAll(Arrays.asList(new Player("Ted"), new Player("Charlotte"), new Player("Fred"),
-                new Player("Amy")));
+        players.addAll(
+                Arrays.asList(new Player("Ted"), new Player("Charlotte"), new Player("Fred"), new Player("Amy")));
         hearts = new Hearts(players, new Scoreboard(players));
 
         hearts.deal();
@@ -95,15 +95,5 @@ public class HeartsTest {
         assertThat(players.get(1).getHand().size(), is(17));
         assertThat(players.get(2).getHand().size(), is(17));
         assertThat(hearts.getRounds(), is(17));
-    }
-
-    @Test
-    public void setsPlayerWithTwoOfClubsAsActivePlayerWhenThereAreThreePlayers() {
-
-    }
-
-    @Test
-    public void setsPlayerWithThreeOfClubsAsActivePlayerWhenThereAreFivePlayers(){
-
     }
 }

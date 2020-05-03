@@ -35,6 +35,14 @@ public class Player {
         return hand;
     }
 
+    /*
+     * public Iterator<Card> getHand() { return
+     * Collections.unmodifiableList(hand).iterator(); } public Card playCard(int
+     * indexIntoHand) { return hand.remove(indexIntoHand);
+     * 
+     * 
+     */
+    
     public String getName() {
         return name;
     }
