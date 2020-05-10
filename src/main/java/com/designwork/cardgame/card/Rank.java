@@ -1,4 +1,4 @@
-package com.designwork.cardgame;
+package com.designwork.cardgame.card;
 
 public enum Rank {
     ACE(1),

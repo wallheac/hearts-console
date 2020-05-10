@@ -1,4 +1,4 @@
-package com.designwork.cardgame;
+package com.designwork.cardgame.card;
 
 import static java.lang.String.valueOf;
 

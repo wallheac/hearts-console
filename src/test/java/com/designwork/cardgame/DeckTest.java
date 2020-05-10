@@ -8,10 +8,9 @@ public class DeckTest {
 
     @Test
     public void shuffleCardsShufflesCards() {
-        Deck deck = new Deck();
-        String unshuffled = deck.toString();
-        deck.shuffle();
-        String shuffled = deck.toString();
+        String unshuffled = Deck.Deck().toString();
+        Deck.Deck().shuffle();
+        String shuffled = Deck.Deck().toString();
 
         assertFalse(shuffled.equals(unshuffled));
     }
