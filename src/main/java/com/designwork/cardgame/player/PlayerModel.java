@@ -5,20 +5,24 @@ import com.designwork.cardgame.card.Card;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class PlayerModel {
     private String name;
+    private final UUID uuid;
     private List<Card> startingHand = new ArrayList<>();
     private List<Card> cardsPlayed = new ArrayList<>();
 
     public PlayerModel(String name) {
         this.name = name;
+        this.uuid = UUID.randomUUID();
     }
 
 
-    public PlayerModel(String name, List<Card> cardsPlayed, Card... cards) {
+    public PlayerModel(String name, UUID uuid, List<Card> cardsPlayed, Card... cards) {
         this.name = name;
+        this.uuid = uuid;
         this.cardsPlayed = cardsPlayed;
         for (Card card : cards) {
             this.startingHand.add(card);
@@ -54,6 +58,10 @@ public class PlayerModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 
     //TODO - consider this implementation

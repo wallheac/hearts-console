@@ -27,7 +27,7 @@ public class Deck {
     }
 
     public static Deck Deck() {
-        if(deck == null) {
+        if (deck == null) {
             deck = new Deck();
         }
         return deck;
@@ -60,7 +60,7 @@ public class Deck {
 
     private void printDeckAndHand(int numberOfCards, List<Card> hand) {
         System.err.println(this.toString());
-        cards.subList(0,numberOfCards).clear();
+        cards.subList(0, numberOfCards).clear();
 
         System.err.println(hand.stream().map(card -> card.toString())
                 .collect(Collectors.toList()).toString());

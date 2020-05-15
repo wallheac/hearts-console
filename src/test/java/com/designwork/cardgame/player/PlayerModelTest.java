@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -23,7 +24,7 @@ public class PlayerModelTest {
 
     @Test
     public void getHandReturnsStartingHandMinusCardsPlayed() throws UnsupportedOperationException {
-        PlayerModel playerModel = new PlayerModel("Ted", Arrays.asList(Card.FiveClubs),
+        PlayerModel playerModel = new PlayerModel("Ted", UUID.randomUUID(), Arrays.asList(Card.FiveClubs),
                 Card.FiveClubs, Card.ThreeClubs, Card.TwoClubs);
 
         List<Card> actual = playerModel.getHand();
@@ -34,7 +35,7 @@ public class PlayerModelTest {
 
     @Test(expected = UnsupportedOperationException.class)
     public void getHandReturnsUnmodifiableList() throws UnsupportedOperationException {
-        PlayerModel playerModel = new PlayerModel("Ted", Arrays.asList(Card.FiveClubs),
+        PlayerModel playerModel = new PlayerModel("Ted", UUID.randomUUID(), Arrays.asList(Card.FiveClubs),
                 Card.FiveClubs, Card.ThreeClubs, Card.TwoClubs);
         List<Card> actual = playerModel.getHand();
 

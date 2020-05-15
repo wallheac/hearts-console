@@ -4,5 +4,6 @@ import java.beans.PropertyChangeListener;
 
 public interface View {
     void addViewListener(PropertyChangeListener viewListener);
+
     void removeViewListener(PropertyChangeListener viewListener);
 }

@@ -7,19 +7,17 @@ import java.beans.PropertyChangeEvent;
 public class RoundPresenter {
 
     private final RoundModel roundModel;
-    private final RoundView roundView;
 
-    public RoundPresenter(RoundModel roundModel, RoundView roundView) {
+    public RoundPresenter(RoundModel roundModel) {
         this.roundModel = roundModel;
-        this.roundView = roundView;
     }
 
     public void handleCardPlayed(PropertyChangeEvent event) {
         //will need validation to show this play was a valid one. Probably in model?
-        roundModel.advancePlayer();
         Integer chosenNumber = (Integer) event.getNewValue();
         //look up card
 
         roundModel.addPlayedCardToTrick(Card.ThreeClubs);
+        roundModel.advancePlayer();
     }
 }

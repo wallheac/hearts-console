@@ -7,7 +7,7 @@ public class PlayerView {
     //HandView - specific to a player
 
     //MyTricksView - specific to a player
-    public PlayerView () {
+    public PlayerView() {
         this(new HandView());
     }
 

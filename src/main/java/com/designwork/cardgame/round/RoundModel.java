@@ -4,26 +4,24 @@ import com.designwork.cardgame.card.Card;
 import com.designwork.cardgame.player.PlayerModel;
 import com.designwork.cardgame.trick.TrickModel;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class RoundModel {
 
-    private List<PlayerModel> playerModels;
-    private TrickModel trickModel;
+    private final List<PlayerModel> playerModels;
+    private final TrickModel trickModel;
     private Card led;
     private PlayerModel currentPlayer;
     private Integer currentRound;
 
-    public RoundModel() {
-        this(new ArrayList<>(), new TrickModel(),
-                null, null, 1);
+    public RoundModel(List<PlayerModel> playerModels) {
+        this(playerModels, new TrickModel(),
+                null, 1);
     }
 
     public RoundModel(List<PlayerModel> playerModels, TrickModel trickModel,
-                      Card led, UUID currentPlayer, Integer currentRound) {
+                      Card led, Integer currentRound) {
         this.playerModels = playerModels;
         this.trickModel = trickModel;
         this.led = led;
@@ -38,7 +36,7 @@ public class RoundModel {
 
     public void addPlayedCardToTrick(Card card) {
         currentPlayer.recordPlayedCard(card);
-        trickModel.addCardToCurrentTrick(card);
+        trickModel.addCardToCurrentTrick(currentPlayer.getUuid(), card);
     }
 
     private PlayerModel findStartingPlayer() {
@@ -47,11 +45,12 @@ public class RoundModel {
             return playerModels.stream().filter(player -> player.getHand().contains(Card.ThreeClubs))
                     .collect(Collectors.toList()).get(0);
         } else {
-            return playerModels.stream().filter(player -> player.getHand().contains(Card.TwoClubs))
-                    .collect(Collectors.toList()).get(0);
+            return playerModels.stream().filter(player ->
+                    player.getHand().contains(Card.TwoClubs))
+                    .collect(Collectors.toList())
+                    .get(0);
         }
     }
-
 
     public Card getLed() {
         return led;
