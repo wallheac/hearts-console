@@ -6,7 +6,7 @@ public class ConsoleInputUtil {
     public ConsoleInputUtil() {
     }
 
-    public int requestNumericInput() {
+    public static int requestNumericInput() {
         Integer input = null;
         Scanner sc;
         try {

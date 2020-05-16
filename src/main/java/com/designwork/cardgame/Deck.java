@@ -6,24 +6,17 @@ import com.designwork.cardgame.card.Suit;
 import com.designwork.cardgame.player.PlayerModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Deck {
     private static Deck deck = null;
-    private List<Card> cards = new ArrayList<>();
+    private List<Card> cards;
 
     private Deck() {
-        constructDeck();
-    }
-
-    private void constructDeck() {
-        for (Suit suit : Suit.values()) {
-            for (Rank rank : Rank.values()) {
-                cards.add(new Card(suit, rank));
-            }
-        }
+        cards = new ArrayList(Arrays.asList(Card.values()));
     }
 
     public static Deck Deck() {
@@ -45,7 +38,7 @@ public class Deck {
 
     @Override
     public String toString() {
-        return cards.stream().map(card -> card.toString())
+        return cards.stream().map(Card::toString)
                 .collect(Collectors.toList()).toString();
     }
 
@@ -54,15 +47,18 @@ public class Deck {
         for (int i = 0; i < numberOfCards; i++) {
             hand.add(cards.get(i));
         }
-        printDeckAndHand(numberOfCards, hand);
+        removeHandFromDeck(numberOfCards);
+        printHand(hand);
         return hand;
     }
 
-    private void printDeckAndHand(int numberOfCards, List<Card> hand) {
+    private void removeHandFromDeck(int numberOfCards) {
         System.err.println(this.toString());
         cards.subList(0, numberOfCards).clear();
+    }
 
-        System.err.println(hand.stream().map(card -> card.toString())
+    private void printHand(List<Card> hand) {
+        System.err.println(hand.stream().map(Card::toString)
                 .collect(Collectors.toList()).toString());
     }
 

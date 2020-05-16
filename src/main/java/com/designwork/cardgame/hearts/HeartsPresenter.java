@@ -1,7 +1,6 @@
 package com.designwork.cardgame.hearts;
 
 import com.designwork.cardgame.Deck;
-import com.designwork.cardgame.commons.util.ConsoleInputUtil;
 import com.designwork.cardgame.player.PlayerModel;
 import com.designwork.cardgame.round.RoundModel;
 import com.designwork.cardgame.round.RoundPresenter;
@@ -14,25 +13,26 @@ public class HeartsPresenter {
     private final HeartsView heartsView;
     private RoundModel roundModel;
     private final List<PlayerModel> playerModels;
-    private String additionalPlayer = "n";
+    private String additionalPlayer;
 
     public HeartsPresenter() {
-        this(new HeartsView());
+        this(new HeartsView(), new ArrayList<>(), "n");
     }
 
-    protected HeartsPresenter(HeartsView heartsView) {
+    protected HeartsPresenter(HeartsView heartsView, List<PlayerModel> playerModels, String additionalPlayer) {
         this.heartsView = heartsView;
-        this.playerModels = new ArrayList<>();
+        this.playerModels = playerModels;
+        this.additionalPlayer = additionalPlayer;
     }
 
     public void initialize() {
-        heartsView.addViewListener(this::handlePlayerAdded);
-        heartsView.addViewListener(this::handleAddingAnotherPlayer);
+        heartsView.addViewListener("playerAdded", this::handlePlayerAdded);
+        heartsView.addViewListener("another", this::handleAddingAnotherPlayer);
         registerPlayers();
         Deck.Deck().shuffle();
         Deck.Deck().deal(playerModels);
         roundModel = new RoundModel(playerModels);
-        RoundPresenter roundPresenter = new RoundPresenter(roundModel);
+        new RoundPresenter(roundModel).initialize();
     }
 
     public void handlePlayerAdded(PropertyChangeEvent event) {
@@ -47,7 +47,7 @@ public class HeartsPresenter {
         playerModels.add(new PlayerModel(name));
     }
 
-    private void registerPlayers() {
+    protected void registerPlayers() {
         do {
             heartsView.requestPlayerName();
             if (playerModels.size() < 4) {

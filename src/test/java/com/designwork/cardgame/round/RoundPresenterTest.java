@@ -21,12 +21,16 @@ import static org.mockito.Mockito.*;
 public class RoundPresenterTest {
     @Mock
     private RoundModel roundModel;
+    @Mock
+    private PlayerModel playerModel;
+    @Mock
+    private RoundView roundView;
 
     private RoundPresenter roundPresenter;
 
     @Before
     public void setup() {
-        roundPresenter = new RoundPresenter(roundModel);
+        roundPresenter = new RoundPresenter(roundModel, roundView);
     }
 
     @Test
@@ -34,10 +38,15 @@ public class RoundPresenterTest {
         PropertyChangeEvent event = mock(PropertyChangeEvent.class);
         when(event.getNewValue()).thenReturn(3);
 
+        when(roundModel.getCurrentPlayer()).thenReturn(playerModel);
+        when(playerModel.getName()).thenReturn("Charlotte");
+
         roundPresenter.handleCardPlayed(event);
 
         verify(roundModel).advancePlayer();
         verify(roundModel).addPlayedCardToTrick(Card.ThreeClubs);
+        verify(roundView).setCurrentPlayerName("Charlotte");
+        verify(roundView).requestPlay();
     }
 
 }

@@ -2,15 +2,12 @@ package com.designwork.cardgame.hearts;
 
 import com.designwork.cardgame.commons.ui.AbstractView;
 import com.designwork.cardgame.commons.util.ConsoleInputUtil;
-import com.designwork.cardgame.player.PlayerModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class HeartsView extends AbstractView {
-    private final ConsoleInputUtil consoleInputUtil = new ConsoleInputUtil();
+    private final ConsoleInputUtil consoleInputUtil;
 
     HeartsView() {
+        consoleInputUtil = new ConsoleInputUtil();
     }
 
     public void requestPlayerName() {
