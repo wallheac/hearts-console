@@ -77,13 +77,9 @@ public class RoundModelTest {
                 null,
                 1);
 
-        roundModel.addPlayedCardToTrick(Card.TwoClubs);
+        roundModel.recordPlayedCard(Card.TwoClubs);
 
         assertThat(tedModel.getHand().size(), is(1));
         assertThat(tedModel.getHand(), is(Collections.singletonList(Card.ThreeClubs)));
-        verify(trickModel).addCardToCurrentTrick(uuid, Card.TwoClubs);
     }
-
-    @Test
-    public void addPlayedCardToTrickDelegatesToTrickModel() {}
 }

@@ -3,6 +3,8 @@ package com.designwork.cardgame.round;
 import com.designwork.cardgame.card.Card;
 import com.designwork.cardgame.player.PlayerModel;
 import com.designwork.cardgame.trick.TrickModel;
+import com.designwork.cardgame.trick.TrickPresenter;
+import com.designwork.cardgame.trick.TrickView;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,12 +27,14 @@ public class RoundPresenterTest {
     private PlayerModel playerModel;
     @Mock
     private RoundView roundView;
+    @Mock
+    private TrickPresenter trickPresenter;
 
     private RoundPresenter roundPresenter;
 
     @Before
     public void setup() {
-        roundPresenter = new RoundPresenter(roundModel, roundView);
+        roundPresenter = new RoundPresenter(roundModel, roundView, new TrickView(trickPresenter), trickPresenter);
     }
 
     @Test
@@ -44,7 +48,7 @@ public class RoundPresenterTest {
         roundPresenter.handleCardPlayed(event);
 
         verify(roundModel).advancePlayer();
-        verify(roundModel).addPlayedCardToTrick(Card.ThreeClubs);
+        verify(roundModel).recordPlayedCard(Card.ThreeClubs);
         verify(roundView).setCurrentPlayerName("Charlotte");
         verify(roundView).requestPlay();
     }

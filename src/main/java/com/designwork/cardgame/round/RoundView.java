@@ -14,16 +14,13 @@ public class RoundView extends AbstractView {
     private String currentPlayerName;
     private List<Card> hand;
 
-    public RoundView(RoundPresenter roundPresenter) {
-        addViewListener("cardPlayed", roundPresenter::handleCardPlayed);
+    public RoundView(RoundPresenter roundPresenter, TrickView trickView) {
+//        addViewListener("cardPlayed", roundPresenter::handleCardPlayed);
         this.trickView = new TrickView();
     }
 
     public void requestPlay() {
         System.out.println("Current Player: " + currentPlayerName);
-        System.out.println("The  current trick is: ");
-        //TODO - not working
-        trickView.displayCurrentTrick();
         System.out.println("Please choose a card to play: ");
         displayHand();
         Integer cardNumber = ConsoleInputUtil.requestNumericInput();

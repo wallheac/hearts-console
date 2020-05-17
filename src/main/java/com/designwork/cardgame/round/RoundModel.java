@@ -16,8 +16,8 @@ public class RoundModel {
     private Integer currentRound;
 
     public RoundModel(List<PlayerModel> playerModels) {
-        this(playerModels, new TrickModel(),
-                null, 1);
+        this(playerModels, new TrickModel(), null,
+                1);
     }
 
     public RoundModel(List<PlayerModel> playerModels, TrickModel trickModel,
@@ -34,9 +34,8 @@ public class RoundModel {
         currentPlayer = playerModels.get(indexOfNextPlayerModel);
     }
 
-    public void addPlayedCardToTrick(Card card) {
+    public void recordPlayedCard(Card card) {
         currentPlayer.recordPlayedCard(card);
-        trickModel.addCardToCurrentTrick(currentPlayer.getUuid(), card);
     }
 
     private PlayerModel findStartingPlayer() {
@@ -50,6 +49,14 @@ public class RoundModel {
                     .collect(Collectors.toList())
                     .get(0);
         }
+    }
+
+    public Integer getNumberOfPlayers () {
+        return playerModels.size();
+    }
+
+    public Integer getTrickSize() {
+        return trickModel.getCurrentTrick().size();
     }
 
     public Card getLed() {
@@ -74,5 +81,9 @@ public class RoundModel {
 
     public void setCurrentRound(Integer currentRound) {
         this.currentRound = currentRound;
+    }
+
+    public TrickModel getTrickModel() {
+        return this.trickModel;
     }
 }
