@@ -24,8 +24,6 @@ public class HeartsPresenterTest {
 
     @Mock
     HeartsView heartsView;
-    @Mock
-    ConsoleInputUtil consoleInputUtil;
 
     @Test
     public void handlePlayerAddedAddsPlayerModel () {

@@ -1,5 +1,6 @@
 package com.designwork.cardgame.player;
 
+import com.designwork.cardgame.Trick;
 import com.designwork.cardgame.card.Card;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class PlayerModel {
     private final UUID uuid;
     private List<Card> startingHand = new ArrayList<>();
     private List<Card> cardsPlayed = new ArrayList<>();
+    private List<Trick> tricksTaken = new ArrayList();
 
     public PlayerModel(String name) {
         this.name = name;
@@ -42,6 +44,14 @@ public class PlayerModel {
 
     public void setStartingHand(List<Card> startingHand) {
         this.startingHand = Collections.unmodifiableList(startingHand);
+    }
+
+    public void recordTrickTaken(Trick trick) {
+        this.tricksTaken.add(trick);
+    }
+
+    public Integer getScore() {
+        return this.tricksTaken.size();
     }
 
     public boolean printHand() {

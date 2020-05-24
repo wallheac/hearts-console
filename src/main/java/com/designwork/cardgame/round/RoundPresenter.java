@@ -1,29 +1,20 @@
 package com.designwork.cardgame.round;
 
-import com.designwork.cardgame.card.Card;
-import com.designwork.cardgame.trick.TrickPresenter;
-import com.designwork.cardgame.trick.TrickView;
-
 import java.beans.PropertyChangeEvent;
-import java.util.List;
 
 public class RoundPresenter {
 
     private final RoundModel roundModel;
     private final RoundView view;
-    private final TrickPresenter trickPresenter;
 
     public RoundPresenter(RoundModel roundModel) {
         this.roundModel = roundModel;
-        TrickView trickView = new TrickView();
-        this.view = new RoundView(this, trickView);
-        this.trickPresenter = new TrickPresenter(trickView, roundModel.getTrickModel());
+        this.view = new RoundView(this);
     }
 
-    protected RoundPresenter(RoundModel roundModel, RoundView roundView, TrickView trickView, TrickPresenter trickPresenter) {
+    protected RoundPresenter(RoundModel roundModel, RoundView roundView) {
         this.roundModel = roundModel;
         this.view = roundView;
-        this.trickPresenter = new TrickPresenter(trickView, roundModel.getTrickModel());
     }
 
     public void initialize() {
@@ -34,24 +25,31 @@ public class RoundPresenter {
     }
 
     public void handleCardPlayed(PropertyChangeEvent event) {
-        //TODO - this has become a god-method. STOP IT
         //TODO will need validation to show this play was a valid one. Probably in model?
-        Integer chosenNumber = Integer.parseInt((String) event.getNewValue());
-        List<Card> hand = roundModel.getCurrentPlayer().getHand();
-        trickPresenter.addPlayedCardToTrick(roundModel.getCurrentPlayer().getUuid(), hand.get(chosenNumber));
-        roundModel.recordPlayedCard(hand.get(chosenNumber));
-        //TODO - this is a new player. Different thing. Probably different method
+        recordPlayedCard(event);
         roundModel.advancePlayer();
-        view.setCurrentPlayerName(roundModel.getCurrentPlayer().getName());
-        view.setHand(roundModel.getCurrentPlayer().getHand());
+        setViewForNewPlayer();
 
         if(roundCompleted()) {
             roundModel.setCurrentRound(roundModel.getCurrentRound() + 1);
+            roundModel.assignTrickToWinner();
+            roundModel.createNewTrick();
         }
-        if(roundModel.getCurrentPlayer().getHand().size() > 0){
-            trickPresenter.handleTrickDisplay();
+        if(roundModel.getCurrentHand().size() > 0){
+            view.displayCurrentTrick();
             view.requestPlay();
         }
+    }
+
+    private void setViewForNewPlayer() {
+        view.setCurrentPlayerName(roundModel.getCurrentPlayer().getName());
+        view.setHand(roundModel.getCurrentHand());
+        view.setCurrentTrick(roundModel.getTrick());
+    }
+
+    private void recordPlayedCard(PropertyChangeEvent event) {
+        Integer chosenNumber = Integer.parseInt((String) event.getNewValue());
+        roundModel.recordPlayedCard(roundModel.getCurrentHand().get(chosenNumber));
     }
 
     private boolean roundCompleted() {
