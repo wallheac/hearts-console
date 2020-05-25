@@ -26,6 +26,7 @@ public class PlayerModel {
     public PlayerModel(String name, UUID uuid, List<Card> cardsPlayed, List<Trick> tricksTaken, Card... cards) {
         this.name = name;
         this.uuid = uuid;
+        this.tricksTaken = tricksTaken;
         this.cardsPlayed = cardsPlayed;
         for (Card card : cards) {
             this.startingHand.add(card);

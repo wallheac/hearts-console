@@ -97,4 +97,18 @@ public class PlayerModelTest {
 
         assert(result == 15);
     }
+
+    @Test
+    public void getScoreReturnsNoPenaltyPointsForTrickWithNeitherQueenOfSpadesNorHearts() {
+        UUID uuid = UUID.randomUUID();
+        Trick trickOne = new Trick(Pair.of(uuid, Card.TwoDiamonds), Pair.of(uuid, Card.ThreeClubs),
+                Pair.of(uuid, Card.QueenDiamonds), Pair.of(uuid, Card.FourClubs));
+        Trick trickTwo = new Trick(Pair.of(uuid, Card.TenClubs), Pair.of(uuid, Card.FiveClubs),
+                Pair.of(uuid, Card.TenDiamonds), Pair.of(uuid, Card.FourSpades));
+        PlayerModel playerModel = new PlayerModel("Amy", uuid, new ArrayList<>(), Arrays.asList(trickOne, trickTwo));
+
+        Integer result = playerModel.getScore();
+
+        assert(result == 0);
+    }
 }
