@@ -1,18 +1,15 @@
 package com.designwork.cardgame.round;
 
 import com.designwork.cardgame.Pair;
+import com.designwork.cardgame.Trick;
 import com.designwork.cardgame.card.Card;
 import com.designwork.cardgame.player.PlayerModel;
-import com.designwork.cardgame.Trick;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.UUID;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -31,7 +28,6 @@ public class RoundModelTest {
 
         roundModel = new RoundModel(
                 Arrays.asList(tedModel, amyModel),
-                null,
                 1, new Trick());
     }
 
@@ -57,7 +53,6 @@ public class RoundModelTest {
 
         roundModel = new RoundModel(
                 Arrays.asList(amyModel, tedModel),
-                null,
                 1, new Trick());
 
         roundModel.recordPlayedCard(Card.TwoClubs);
@@ -77,17 +72,17 @@ public class RoundModelTest {
     @Test
     public void assignTrickToWinnerAssignsTrickToWinningPlayerModel() {
         UUID uuidOne = UUID.randomUUID();
-        PlayerModel amyModel = new PlayerModel("Amy", uuidOne, new ArrayList<>(), new ArrayList<>(), Card.FourClubs, Card.FiveClubs);
+        PlayerModel amyModel = new PlayerModel("Amy", uuidOne, new ArrayList<>(), new ArrayList<>(), Card.FourHearts, Card.FiveClubs);
         UUID uuidTwo = UUID.randomUUID();
         PlayerModel tedModel = new PlayerModel("Ted", uuidTwo, new ArrayList<>(), new ArrayList<>(), Card.TwoClubs, Card.ThreeClubs);
         roundModel = new RoundModel(
                 Arrays.asList(amyModel, tedModel),
-                null,
-                1, new Trick(Pair.of(uuidTwo, Card.TwoClubs), Pair.of(uuidOne, Card.FourClubs)));
+                1, new Trick(Pair.of(uuidTwo, Card.TwoClubs), Pair.of(uuidOne, Card.FourHearts)));
 
         roundModel.assignTrickToWinner();
 
-        assertThat(roundModel.getPlayerModelById(uuidOne).getScore(), is(1));
+        assertThat(roundModel.getPlayerModelById(uuidOne).getScore(), is(0));
+        assertThat(roundModel.getPlayerModelById(uuidTwo).getScore(), is(1));
     }
 
     @Test
@@ -98,7 +93,6 @@ public class RoundModelTest {
         PlayerModel tedModel = new PlayerModel("Ted", uuidTwo, new ArrayList<>(), new ArrayList<>(), Card.TwoClubs, Card.ThreeClubs);
         roundModel = new RoundModel(
                 Arrays.asList(amyModel, tedModel),
-                null,
                 1, new Trick(Pair.of(uuidTwo, Card.TwoClubs), Pair.of(uuidOne, Card.FourClubs)));
 
         PlayerModel winner = roundModel.calculateTrickWinner();
@@ -115,7 +109,6 @@ public class RoundModelTest {
         PlayerModel tedModel = new PlayerModel("Ted", uuidTwo, new ArrayList<>(), new ArrayList<>(), Card.TwoClubs, Card.ThreeClubs);
         roundModel = new RoundModel(
                 Arrays.asList(amyModel, tedModel),
-                null,
                 1, new Trick(Pair.of(uuidTwo, Card.TwoClubs), Pair.of(uuidOne, Card.FourClubs)));
 
         PlayerModel winner = roundModel.calculateTrickWinner();
@@ -124,5 +117,21 @@ public class RoundModelTest {
         assertThat(winner, is(amyModel));
         assertThat(winner.getScore(), is(0));
         assertThat(roundModel.getCurrentPlayer(), is(winner));
+    }
+
+    @Test
+    public void hasNextRoundReturnsTrueWhenNoPlayerHasOneHundredPoints() {
+        UUID uuidOne = UUID.randomUUID();
+        PlayerModel amyModel = new PlayerModel("Amy", uuidOne, new ArrayList<>(), new ArrayList<>(), Card.FourClubs);
+        UUID uuidTwo = UUID.randomUUID();
+        PlayerModel tedModel = new PlayerModel("Ted", uuidTwo, new ArrayList<>(), new ArrayList<>(), Card.TwoClubs);
+        roundModel = new RoundModel(
+                Arrays.asList(amyModel, tedModel),
+                1, new Trick(Pair.of(uuidTwo, Card.TwoClubs), Pair.of(uuidOne, Card.FourClubs)));
+
+        roundModel.assignTrickToWinner();
+        boolean result = roundModel.hasNextRound();
+
+        assertThat(result, is(true));
     }
 }

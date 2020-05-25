@@ -13,20 +13,17 @@ import java.util.stream.Collectors;
 public class RoundModel {
 
     private final List<PlayerModel> playerModels;
-    private Card led;
     private Trick trick;
     private PlayerModel currentPlayer;
     private Integer currentRound;
 
     public RoundModel(List<PlayerModel> playerModels) {
-        this(playerModels, null,
-                1, new Trick());
+        this(playerModels, 1, new Trick());
     }
 
     public RoundModel(List<PlayerModel> playerModels,
-                      Card led, Integer currentRound, Trick trick) {
+                      Integer currentRound, Trick trick) {
         this.playerModels = playerModels;
-        this.led = led;
         this.trick = trick;
         this.currentPlayer = findStartingPlayer();
         this.currentRound = currentRound;
@@ -62,7 +59,7 @@ public class RoundModel {
     }
 
     protected PlayerModel calculateTrickWinner() {
-        Pair<UUID, Card> led = this.trick.getCards().get(0);
+        Pair<UUID, Card> led = getLed();
         Pair<UUID, Card> winner = led;
         for (Pair<UUID, Card> pair: this.trick.getCards()) {
             if(pair.getSecond().getSuit().equals(led.getSecond().getSuit())) {
@@ -91,12 +88,8 @@ public class RoundModel {
         return trick.getCards().size();
     }
 
-    public Card getLed() {
-        return led;
-    }
-
-    public void setLed(Card led) {
-        this.led = led;
+    public Pair<UUID, Card> getLed() {
+        return this.trick.getCards().get(0);
     }
 
     public PlayerModel getCurrentPlayer() {
@@ -127,4 +120,9 @@ public class RoundModel {
         return Collections.unmodifiableList(this.playerModels);
     }
 
+    public boolean hasNextRound() {
+        List<PlayerModel> overOneHundred = this.playerModels.stream()
+                .filter(playerModel -> playerModel.getScore() >= 100).collect(Collectors.toList());
+        return overOneHundred.size() == 0;
+    }
 }
