@@ -25,9 +25,9 @@ public class RoundModelTest {
     @Before
     public void setup() {
         PlayerModel tedModel = new PlayerModel("Ted", UUID.randomUUID(), new ArrayList<>(),
-                Card.TwoClubs, Card.ThreeClubs);
+                new ArrayList<>(), Card.TwoClubs, Card.ThreeClubs);
         PlayerModel amyModel = new PlayerModel("Amy", UUID.randomUUID(), new ArrayList<>(),
-                Card.FourClubs, Card.FiveClubs);
+                new ArrayList<>(), Card.FourClubs, Card.FiveClubs);
 
         roundModel = new RoundModel(
                 Arrays.asList(tedModel, amyModel),
@@ -52,8 +52,8 @@ public class RoundModelTest {
     @Test
     public void recordPlayedCardUpdatesCurrentPlayerHand() {
         UUID uuid = UUID.randomUUID();
-        PlayerModel amyModel = new PlayerModel("Amy", uuid, new ArrayList<>(), Card.FourClubs, Card.FiveClubs);
-        PlayerModel tedModel = new PlayerModel("Ted", uuid, new ArrayList<>(), Card.TwoClubs, Card.ThreeClubs);
+        PlayerModel amyModel = new PlayerModel("Amy", uuid, new ArrayList<>(), new ArrayList<>(), Card.FourClubs, Card.FiveClubs);
+        PlayerModel tedModel = new PlayerModel("Ted", uuid, new ArrayList<>(), new ArrayList<>(), Card.TwoClubs, Card.ThreeClubs);
 
         roundModel = new RoundModel(
                 Arrays.asList(amyModel, tedModel),
@@ -77,9 +77,9 @@ public class RoundModelTest {
     @Test
     public void assignTrickToWinnerAssignsTrickToWinningPlayerModel() {
         UUID uuidOne = UUID.randomUUID();
-        PlayerModel amyModel = new PlayerModel("Amy", uuidOne, new ArrayList<>(), Card.FourClubs, Card.FiveClubs);
+        PlayerModel amyModel = new PlayerModel("Amy", uuidOne, new ArrayList<>(), new ArrayList<>(), Card.FourClubs, Card.FiveClubs);
         UUID uuidTwo = UUID.randomUUID();
-        PlayerModel tedModel = new PlayerModel("Ted", uuidTwo, new ArrayList<>(), Card.TwoClubs, Card.ThreeClubs);
+        PlayerModel tedModel = new PlayerModel("Ted", uuidTwo, new ArrayList<>(), new ArrayList<>(), Card.TwoClubs, Card.ThreeClubs);
         roundModel = new RoundModel(
                 Arrays.asList(amyModel, tedModel),
                 null,
@@ -93,9 +93,9 @@ public class RoundModelTest {
     @Test
     public void calculateTrickWinnerReturnsPlayerModelWithHighestCardOfLedSuit() {
         UUID uuidOne = UUID.randomUUID();
-        PlayerModel amyModel = new PlayerModel("Amy", uuidOne, new ArrayList<>(), Card.FourClubs, Card.FiveClubs);
+        PlayerModel amyModel = new PlayerModel("Amy", uuidOne, new ArrayList<>(), new ArrayList<>(), Card.FourClubs, Card.FiveClubs);
         UUID uuidTwo = UUID.randomUUID();
-        PlayerModel tedModel = new PlayerModel("Ted", uuidTwo, new ArrayList<>(), Card.TwoClubs, Card.ThreeClubs);
+        PlayerModel tedModel = new PlayerModel("Ted", uuidTwo, new ArrayList<>(), new ArrayList<>(), Card.TwoClubs, Card.ThreeClubs);
         roundModel = new RoundModel(
                 Arrays.asList(amyModel, tedModel),
                 null,

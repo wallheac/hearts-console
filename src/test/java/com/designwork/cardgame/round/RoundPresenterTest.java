@@ -12,7 +12,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.UUID;
 
 import static org.mockito.Mockito.*;
@@ -35,7 +34,7 @@ public class RoundPresenterTest {
     public void handleCardPlayedDelegatesToRoundModel() {
         UUID uuid = UUID.randomUUID();
         PlayerModel playerModel = new PlayerModel("Charlotte", uuid, new ArrayList<>(),
-                Card.TwoClubs, Card.TwoDiamonds, Card.AceClubs, Card.ThreeClubs);
+                new ArrayList<>(), Card.TwoClubs, Card.TwoDiamonds, Card.AceClubs, Card.ThreeClubs);
         PropertyChangeEvent event = mock(PropertyChangeEvent.class);
         when(event.getNewValue()).thenReturn("3");
         Trick trick = new Trick(Pair.of(uuid, Card.ThreeClubs));
@@ -59,10 +58,10 @@ public class RoundPresenterTest {
     public void roundPresenterIncrementsCurrentRoundWhenLastPlayerPlaysCard() {
         UUID uuid1 = UUID.randomUUID();
         PlayerModel playerOne = new PlayerModel("Charlotte", uuid1, new ArrayList<>(),
-                Card.TwoClubs, Card.TwoDiamonds, Card.AceClubs, Card.ThreeClubs);
+                new ArrayList<>(), Card.TwoClubs, Card.TwoDiamonds, Card.AceClubs, Card.ThreeClubs);
         UUID uuid2 = UUID.randomUUID();
         PlayerModel playerTwo = new PlayerModel("Ted", uuid2, new ArrayList<>(),
-                Card.FiveClubs, Card.ThreeDiamonds, Card.AceHearts, Card.ThreeHearts);
+                new ArrayList<>(), Card.FiveClubs, Card.ThreeDiamonds, Card.AceHearts, Card.ThreeHearts);
 
 
         PropertyChangeEvent event = mock(PropertyChangeEvent.class);

@@ -10,19 +10,20 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class PlayerModel {
+    private static final Integer QUEEN_OF_SPADES_PENALTY_AMOUNT = 13;
+
     private String name;
     private final UUID uuid;
     private List<Card> startingHand = new ArrayList<>();
     private List<Card> cardsPlayed = new ArrayList<>();
-    private List<Trick> tricksTaken = new ArrayList();
+    private List<Trick> tricksTaken = new ArrayList<>();
 
     public PlayerModel(String name) {
         this.name = name;
         this.uuid = UUID.randomUUID();
     }
 
-
-    public PlayerModel(String name, UUID uuid, List<Card> cardsPlayed, Card... cards) {
+    public PlayerModel(String name, UUID uuid, List<Card> cardsPlayed, List<Trick> tricksTaken, Card... cards) {
         this.name = name;
         this.uuid = uuid;
         this.cardsPlayed = cardsPlayed;
@@ -33,9 +34,7 @@ public class PlayerModel {
 
     public List<Card> getHand() {
         return Collections.unmodifiableList(
-                startingHand.stream()
-                        .filter(card -> !cardsPlayed.contains(card))
-                        .collect(Collectors.toList()));
+                startingHand.stream().filter(card -> !cardsPlayed.contains(card)).collect(Collectors.toList()));
     }
 
     public void recordPlayedCard(Card card) {
@@ -51,7 +50,16 @@ public class PlayerModel {
     }
 
     public Integer getScore() {
-        return this.tricksTaken.size();
+        Integer score = 0;
+        for (Trick trick: this.tricksTaken) {
+            if(trick.containsHeart()) {
+                score++;
+            }
+            if(trick.containsQueenOfSpades()) {
+                score += QUEEN_OF_SPADES_PENALTY_AMOUNT;
+            }
+        }
+        return score;
     }
 
     public boolean printHand() {
@@ -74,7 +82,7 @@ public class PlayerModel {
         return uuid;
     }
 
-    //TODO - consider this implementation
+    // TODO - consider this implementation
     /*
      * public Iterator<Card> getHand() { return
      * Collections.unmodifiableList(hand).iterator(); } public Card playCard(int
