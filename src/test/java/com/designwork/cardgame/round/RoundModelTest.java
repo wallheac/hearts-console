@@ -107,4 +107,22 @@ public class RoundModelTest {
     }
 
     //round model chooses correct starting player each round
+    @Test
+    public void assignTrickToWinnerFindsWinnerAssignsTrickAndSetsWinnerAsCurrentPlayer() {
+        UUID uuidOne = UUID.randomUUID();
+        PlayerModel amyModel = new PlayerModel("Amy", uuidOne, new ArrayList<>(), new ArrayList<>(), Card.FourClubs, Card.FiveClubs);
+        UUID uuidTwo = UUID.randomUUID();
+        PlayerModel tedModel = new PlayerModel("Ted", uuidTwo, new ArrayList<>(), new ArrayList<>(), Card.TwoClubs, Card.ThreeClubs);
+        roundModel = new RoundModel(
+                Arrays.asList(amyModel, tedModel),
+                null,
+                1, new Trick(Pair.of(uuidTwo, Card.TwoClubs), Pair.of(uuidOne, Card.FourClubs)));
+
+        PlayerModel winner = roundModel.calculateTrickWinner();
+        roundModel.assignTrickToWinner();
+
+        assertThat(winner, is(amyModel));
+        assertThat(winner.getScore(), is(0));
+        assertThat(roundModel.getCurrentPlayer(), is(winner));
+    }
 }

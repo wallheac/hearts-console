@@ -58,6 +58,7 @@ public class RoundModel {
     public void assignTrickToWinner() {
         PlayerModel playerModel = calculateTrickWinner();
         playerModel.recordTrickTaken(this.trick);
+        this.currentPlayer = playerModel;
     }
 
     protected PlayerModel calculateTrickWinner() {
