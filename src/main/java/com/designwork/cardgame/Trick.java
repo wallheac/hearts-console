@@ -46,4 +46,8 @@ public class Trick {
     public Integer getSize() {
         return cards.size();
     }
+
+    public Card getLed() {
+        return cards.get(0).getSecond();
+    }
 }

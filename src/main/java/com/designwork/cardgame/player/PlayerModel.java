@@ -84,6 +84,10 @@ public class PlayerModel {
         return uuid;
     }
 
+    public List<Card> getCardsPlayed() {
+        return this.cardsPlayed;
+    }
+
     // TODO - consider this implementation
     /*
      * public Iterator<Card> getHand() { return

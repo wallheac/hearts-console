@@ -29,7 +29,7 @@ public class RoundPresenterTest {
 
     @Before
     public void setup() {
-        roundPresenter = new RoundPresenter(roundModel, roundView);
+        roundPresenter = new RoundPresenter(roundModel, roundView, new RoundValidator(roundModel));
     }
 
     @Test

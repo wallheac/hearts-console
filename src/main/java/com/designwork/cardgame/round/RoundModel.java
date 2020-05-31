@@ -3,6 +3,7 @@ package com.designwork.cardgame.round;
 import com.designwork.cardgame.Pair;
 import com.designwork.cardgame.Trick;
 import com.designwork.cardgame.card.Card;
+import com.designwork.cardgame.card.Suit;
 import com.designwork.cardgame.player.PlayerModel;
 
 import java.util.Collections;
@@ -39,7 +40,7 @@ public class RoundModel {
         trick.addCardToTrick(currentPlayer.getUuid(), card);
     }
 
-    private PlayerModel findStartingPlayer() {
+    PlayerModel findStartingPlayer() {
         int numberOfPlayers = playerModels.size();
         if (numberOfPlayers == 5) {
             return playerModels.stream().filter(player -> player.getHand().contains(Card.ThreeClubs))
@@ -76,16 +77,37 @@ public class RoundModel {
                 .get(0);
     }
 
-    public List<Card> getCurrentHand() {
-        return this.currentPlayer.getHand();
+    public boolean currentPlayerIsStartingPlayer() {
+        return this.currentPlayer.equals(findStartingPlayer());
     }
 
-    public Integer getNumberOfPlayers () {
-        return playerModels.size();
+    public boolean hasNextRound() {
+        List<PlayerModel> overOneHundred = this.playerModels.stream()
+                .filter(playerModel -> playerModel.getScore() >= 100).collect(Collectors.toList());
+        return overOneHundred.size() == 0;
     }
 
     public Integer getTrickSize() {
         return trick.getCards().size();
+    }
+
+    public boolean heartsBroken() {
+        List<PlayerModel> playedHearts = this.playerModels.stream()
+                .filter(playerModel -> playerModel.getCardsPlayed().stream()
+                        .anyMatch(card -> card.getSuit().equals(Suit.HEARTS))).collect(Collectors.toList());
+        return !playedHearts.isEmpty();
+    }
+
+    public void createNewTrick() {
+        this.trick = new Trick();
+    }
+
+    public List<Card> getCurrentHand() {
+        return this.currentPlayer.getHand();
+    }
+
+    public Integer getNumberOfPlayers() {
+        return playerModels.size();
     }
 
     public Pair<UUID, Card> getLed() {
@@ -112,17 +134,7 @@ public class RoundModel {
         return this.trick;
     }
 
-    public void createNewTrick() {
-        this.trick = new Trick();
-    }
-
     protected List<PlayerModel> getPlayerModels() {
         return Collections.unmodifiableList(this.playerModels);
-    }
-
-    public boolean hasNextRound() {
-        List<PlayerModel> overOneHundred = this.playerModels.stream()
-                .filter(playerModel -> playerModel.getScore() >= 100).collect(Collectors.toList());
-        return overOneHundred.size() == 0;
     }
 }
