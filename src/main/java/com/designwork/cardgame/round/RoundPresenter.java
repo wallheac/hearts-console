@@ -1,5 +1,7 @@
 package com.designwork.cardgame.round;
 
+import com.designwork.cardgame.Deck;
+
 import java.beans.PropertyChangeEvent;
 
 public class RoundPresenter {
@@ -38,6 +40,17 @@ public class RoundPresenter {
         if(roundModel.getCurrentHand().size() > 0){
             view.displayCurrentTrick();
             view.requestPlay();
+        }
+        else if(roundModel.hasNextRound()) {
+            Deck.Deck().resetDeck();
+            Deck.Deck().shuffle();
+            Deck.Deck().deal(roundModel.getPlayerModels());
+            view.setCurrentPlayerName(roundModel.getCurrentPlayer().getName());
+            view.setHand(roundModel.getCurrentPlayer().getHand());
+            view.requestPlay();
+        }
+        else {
+            view.gameOver();
         }
     }
 

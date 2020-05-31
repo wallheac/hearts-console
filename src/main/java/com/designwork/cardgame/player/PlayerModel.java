@@ -44,6 +44,7 @@ public class PlayerModel {
 
     public void setStartingHand(List<Card> startingHand) {
         this.startingHand = Collections.unmodifiableList(startingHand);
+        this.cardsPlayed = new ArrayList<>();
     }
 
     public void recordTrickTaken(Trick trick) {

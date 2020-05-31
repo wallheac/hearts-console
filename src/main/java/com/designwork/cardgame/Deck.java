@@ -68,4 +68,8 @@ public class Deck {
                 .filter(card -> !(card.getSuit().equals(suit) && card.getRank().equals(rank)))
                 .collect(Collectors.toList());
     }
+
+    public void resetDeck() {
+        this.cards = new ArrayList<>(Arrays.asList(Card.values()));
+    }
 }

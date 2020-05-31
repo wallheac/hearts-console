@@ -25,6 +25,10 @@ public class RoundView extends AbstractView {
         setValue("cardPlayed", null, cardNumber.toString());
     }
 
+    public void gameOver() {
+        System.out.println("GameOver");
+    }
+
     private void displayHand() {
         for (int i = 0; i < hand.size(); i++) {
             System.out.println(i + ". " + hand.get(i).prettyPrint());

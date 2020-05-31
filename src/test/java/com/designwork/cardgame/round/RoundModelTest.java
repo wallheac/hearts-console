@@ -100,7 +100,6 @@ public class RoundModelTest {
         assertThat(winner, is(amyModel));
     }
 
-    //round model chooses correct starting player each round
     @Test
     public void assignTrickToWinnerFindsWinnerAssignsTrickAndSetsWinnerAsCurrentPlayer() {
         UUID uuidOne = UUID.randomUUID();

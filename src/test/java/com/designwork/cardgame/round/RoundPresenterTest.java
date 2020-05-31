@@ -12,6 +12,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.Mockito.*;
@@ -79,6 +81,29 @@ public class RoundPresenterTest {
         verify(roundModel).setCurrentRound(2);
     }
 
+    @Test
+    public void roundPresenterStopsGameWhenOnePlayerReaches100Points() {
 
+        UUID uuid1 = UUID.randomUUID();
+        Pair<UUID, Card> pairOne = Pair.of(uuid1, Card.QueenSpades);
+        Trick trick = new Trick(pairOne);
+        List<Trick> tricks = Arrays.asList(trick, trick, trick, trick, trick, trick, trick, trick);
+        PlayerModel playerOne = new PlayerModel("Charlotte", uuid1, new ArrayList<>(),
+                tricks, Card.FourClubs);
+        UUID uuid2 = UUID.randomUUID();
+        PlayerModel playerTwo = new PlayerModel("Ted", uuid2, new ArrayList<>(),
+                new ArrayList<>());
+
+        PropertyChangeEvent event = mock(PropertyChangeEvent.class);
+        when(event.getNewValue()).thenReturn("0");
+
+        when(roundModel.getCurrentPlayer()).thenReturn(playerOne);//.thenReturn(playerTwo);
+        when(roundModel.getCurrentHand()).thenReturn(playerOne.getHand()).thenReturn(playerTwo.getHand());
+        when(roundModel.getNumberOfPlayers()).thenReturn(2);
+
+        roundPresenter.handleCardPlayed(event);
+
+        verify(roundView).gameOver();
+    }
 
 }
