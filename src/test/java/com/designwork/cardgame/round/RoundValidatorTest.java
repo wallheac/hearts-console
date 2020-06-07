@@ -35,7 +35,7 @@ public class RoundValidatorTest {
 
         when(roundModel.getCurrentHand()).thenReturn(Arrays.asList(Card.TwoClubs, Card.TwoDiamonds, Card.AceClubs, Card.ThreeClubs));
         when(roundModel.getCurrentRound()).thenReturn(1);
-        when(roundModel.currentPlayerIsStartingPlayer()).thenReturn(true);
+        when(roundModel.getTrickSize()).thenReturn(0);
         when(roundModel.getTrick()).thenReturn(trick);
         when(roundModel.heartsBroken()).thenReturn(true);
 
@@ -48,7 +48,7 @@ public class RoundValidatorTest {
     public void isValidPlayReturnsFalseWhenFirstPlayerPlaysNon2ofC() {
         when(roundModel.getCurrentHand()).thenReturn(Arrays.asList(Card.ThreeClubs));
         when(roundModel.getCurrentRound()).thenReturn(1);
-        when(roundModel.currentPlayerIsStartingPlayer()).thenReturn(true);
+        when(roundModel.getTrickSize()).thenReturn(0);
 
         boolean result = roundValidator.isValidPlay(0);
 
@@ -59,7 +59,7 @@ public class RoundValidatorTest {
     public void isValidPlayReturnsFalseWhenHeartInFirstRound() {
         when(roundModel.getCurrentHand()).thenReturn(Arrays.asList(Card.AceHearts));
         when(roundModel.getCurrentRound()).thenReturn(1);
-        when(roundModel.currentPlayerIsStartingPlayer()).thenReturn(false);
+        when(roundModel.getTrickSize()).thenReturn(1);
 
         boolean result = roundValidator.isValidPlay(0);
 
@@ -70,7 +70,7 @@ public class RoundValidatorTest {
     public void isValidPlayReturnsFalseWhenQofSInFirstRound() {
         when(roundModel.getCurrentHand()).thenReturn(Arrays.asList(Card.QueenSpades));
         when(roundModel.getCurrentRound()).thenReturn(1);
-        when(roundModel.currentPlayerIsStartingPlayer()).thenReturn(false);
+        when(roundModel.getTrickSize()).thenReturn(1);
 
         boolean result = roundValidator.isValidPlay(0);
 
@@ -83,6 +83,7 @@ public class RoundValidatorTest {
 
         when(roundModel.getCurrentHand()).thenReturn(Arrays.asList(Card.TwoClubs, Card.TwoDiamonds, Card.AceClubs, Card.ThreeClubs));
         when(roundModel.getCurrentRound()).thenReturn(2);
+        when(roundModel.getTrickSize()).thenReturn(1);
         when(roundModel.getTrick()).thenReturn(trick);
 
         boolean result = roundValidator.isValidPlay(1);
@@ -105,14 +106,15 @@ public class RoundValidatorTest {
 
     @Test
     public void isValidPlayReturnsFalseWhenHeartsLedBeforeBreakingHearts() {
-        Trick trick = new Trick(Pair.of(UUID.randomUUID(), Card.TwoHearts));
+        Trick trick = new Trick();
 
         when(roundModel.getCurrentHand()).thenReturn(Arrays.asList(Card.TwoHearts, Card.TwoDiamonds, Card.AceHearts, Card.ThreeHearts));
         when(roundModel.getCurrentRound()).thenReturn(2);
         when(roundModel.getTrick()).thenReturn(trick);
+        when(roundModel.getTrickSize()).thenReturn(0);
         when(roundModel.heartsBroken()).thenReturn(false);
 
-        boolean result = roundValidator.isValidPlay(1);
+        boolean result = roundValidator.isValidPlay(0);
 
         assertFalse(result);
     }

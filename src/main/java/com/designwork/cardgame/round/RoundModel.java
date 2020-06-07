@@ -64,7 +64,7 @@ public class RoundModel {
         Pair<UUID, Card> winner = led;
         for (Pair<UUID, Card> pair: this.trick.getCards()) {
             if(pair.getSecond().getSuit().equals(led.getSecond().getSuit())) {
-                winner = pair.getSecond().getRank().getNumber() > led.getSecond().getRank().getNumber() ? pair : led;
+                winner = pair.getSecond().getRank().getNumber() > winner.getSecond().getRank().getNumber() ? pair : winner;
             }
         }
         return getPlayerModelById(winner.getFirst());
@@ -82,9 +82,15 @@ public class RoundModel {
     }
 
     public boolean hasNextRound() {
-        List<PlayerModel> overOneHundred = this.playerModels.stream()
-                .filter(playerModel -> playerModel.getScore() >= 100).collect(Collectors.toList());
-        return overOneHundred.size() == 0;
+        PlayerModel overOneHundred = getGameWinner();
+        return overOneHundred == null;
+    }
+
+    public PlayerModel getGameWinner() {
+        return this.playerModels.stream()
+                    .filter(playerModel -> playerModel.getScore() >= 100)
+                .findFirst()
+                .orElse(null);
     }
 
     public Integer getTrickSize() {

@@ -19,12 +19,11 @@ public class DeckTest {
 
     @Test
     public void resetDeckReturns52Cards() {
-        String unshuffled = Deck.Deck().toString();
         Deck.Deck().resetDeck();
+
         String reset = Deck.Deck().toString();
 
-        assertTrue(unshuffled.equals(reset));
-        assertThat(Deck.Deck().toString().split(",").length, is(52));
+        assertThat(reset.split(",").length, is(52));
     }
 
 }

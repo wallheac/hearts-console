@@ -17,21 +17,25 @@ public class RoundValidator {
     public boolean isValidPlay(Integer chosenNumber) {
         Card card = model.getCurrentHand().get(chosenNumber);
         if (model.getCurrentRound() == 1) {
-            if (model.currentPlayerIsStartingPlayer() && !Card.TwoClubs.equals(card)) {
+            if (model.getTrickSize() == 0 && !Card.TwoClubs.equals(card)) {
                 return false;
             }
             if (Suit.HEARTS.equals(card.getSuit()) || Card.QueenSpades.equals(card)) {
                 return false;
             }
         }
-        if (sameSuitInHand(model.getTrick().getLed()) && !followsSuit(card)) {
+        //can only lead hearts after a heart has been played (unless player has nothing but hearts)
+        if (heartsLed(card) && !(model.heartsBroken() || hasOnlyHearts())) {
             return false;
         }
-        //can only lead hearts after a heart has been played (unless player has nothing but hearts)
-        if (card.getSuit().equals(Suit.HEARTS) && !(model.heartsBroken() || hasOnlyHearts())) {
+         if (model.getTrickSize() > 0 && sameSuitInHand(model.getTrick().getLed()) && !followsSuit(card)) {
             return false;
         }
         return true;
+    }
+
+    private boolean heartsLed(Card card) {
+        return model.getTrickSize() == 0 && card.getSuit().equals(Suit.HEARTS);
     }
 
     private boolean hasOnlyHearts() {

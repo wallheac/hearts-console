@@ -49,9 +49,10 @@ public class RoundPresenterTest {
 
         verify(roundModel).advancePlayer();
         verify(roundModel).recordPlayedCard(Card.ThreeClubs);
-        verify(roundView).setCurrentPlayerName("Charlotte");
-        verify(roundView).setHand(playerModel.getHand());
-        verify(roundView).setCurrentTrick(trick);
+        verify(roundModel,times(4)).getCurrentPlayer();
+        verify(roundView, times(2)).setCurrentPlayerName("Charlotte");
+        verify(roundView, times(2)).setHand(playerModel.getHand());
+        verify(roundView, times(2)).setCurrentTrick(trick);
         verify(roundView).requestPlay();
 
     }
@@ -59,6 +60,8 @@ public class RoundPresenterTest {
     @Test
     public void roundPresenterIncrementsCurrentRoundWhenLastPlayerPlaysCard() {
         UUID uuid1 = UUID.randomUUID();
+        Pair<UUID, Card> pairOne = Pair.of(uuid1, Card.ThreeClubs);
+        Trick trick = new Trick(pairOne);
         PlayerModel playerOne = new PlayerModel("Charlotte", uuid1, new ArrayList<>(),
                 new ArrayList<>(), Card.TwoClubs, Card.TwoDiamonds, Card.AceClubs, Card.ThreeClubs);
         UUID uuid2 = UUID.randomUUID();
@@ -67,12 +70,15 @@ public class RoundPresenterTest {
 
 
         PropertyChangeEvent event = mock(PropertyChangeEvent.class);
-        when(event.getNewValue()).thenReturn("3").thenReturn("2");
+        when(event.getNewValue()).thenReturn("3").thenReturn("0");
 
         when(roundModel.getCurrentPlayer()).thenReturn(playerOne).thenReturn(playerTwo);
         when(roundModel.getCurrentHand()).thenReturn(playerOne.getHand()).thenReturn(playerTwo.getHand());
         when(roundModel.getNumberOfPlayers()).thenReturn(2);
-        when(roundModel.getTrickSize()).thenReturn(1).thenReturn(2);
+        when(roundModel.getTrick()).thenReturn(trick);
+        when(roundModel.getTrickSize())
+                .thenReturn(1).thenReturn(1).thenReturn(1).thenReturn(1)
+                .thenReturn(2).thenReturn(2).thenReturn(2).thenReturn(2);
         when(roundModel.getCurrentRound()).thenReturn(1);
 
         roundPresenter.handleCardPlayed(event);
@@ -90,20 +96,25 @@ public class RoundPresenterTest {
         List<Trick> tricks = Arrays.asList(trick, trick, trick, trick, trick, trick, trick, trick);
         PlayerModel playerOne = new PlayerModel("Charlotte", uuid1, new ArrayList<>(),
                 tricks, Card.FourClubs);
-        UUID uuid2 = UUID.randomUUID();
-        PlayerModel playerTwo = new PlayerModel("Ted", uuid2, new ArrayList<>(),
-                new ArrayList<>());
 
         PropertyChangeEvent event = mock(PropertyChangeEvent.class);
         when(event.getNewValue()).thenReturn("0");
 
-        when(roundModel.getCurrentPlayer()).thenReturn(playerOne);//.thenReturn(playerTwo);
-        when(roundModel.getCurrentHand()).thenReturn(playerOne.getHand()).thenReturn(playerTwo.getHand());
+        when(roundModel.getCurrentPlayer()).thenReturn(playerOne);
+        when(roundModel.getCurrentRound()).thenReturn(2);
+        when(roundModel.getCurrentHand())
+                .thenReturn(playerOne.getHand())
+                .thenReturn(playerOne.getHand())
+                .thenReturn(playerOne.getHand())
+                .thenReturn(new ArrayList<>());
         when(roundModel.getNumberOfPlayers()).thenReturn(2);
+        when(roundModel.getTrickSize()).thenReturn(2);
+        when(roundModel.getTrick()).thenReturn(trick);
+        when(roundModel.getGameWinner()).thenReturn(playerOne);
 
         roundPresenter.handleCardPlayed(event);
 
-        verify(roundView).gameOver();
+        verify(roundView).gameOver(roundModel.getGameWinner().getName());
     }
 
 }

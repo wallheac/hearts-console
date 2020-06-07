@@ -25,8 +25,8 @@ public class RoundView extends AbstractView {
         setValue("cardPlayed", null, cardNumber.toString());
     }
 
-    public void gameOver() {
-        System.out.println("GameOver");
+    public void gameOver(String name) {
+        System.out.println("\nGame Over\n" + name + " wins!");
     }
 
     private void displayHand() {
@@ -40,6 +40,10 @@ public class RoundView extends AbstractView {
         currentTrick.getCards().stream().forEach(card -> System.out.println(card.getSecond().prettyPrint()));
     }
 
+    public void respondInvalidChoice() {
+        System.out.println("You chose an invalid card. Please try again");
+    }
+
     public void setCurrentPlayerName(String currentPlayerName) {
         this.currentPlayerName = currentPlayerName;
     }
@@ -50,5 +54,9 @@ public class RoundView extends AbstractView {
 
     public void setCurrentTrick(Trick trick) {
         this.currentTrick = trick;
+    }
+
+    public void announceTrickWinner(String name) {
+        System.out.println( "\n" + name + " wins this trick\n\n");
     }
 }

@@ -30,19 +30,25 @@ public class RoundPresenter {
     }
 
     public void handleCardPlayed(PropertyChangeEvent event) {
-        //TODO will need validation to show this play was a valid one. Probably in model?
         Integer chosenNumber = getIntegerValueForEvent(event);
-        if(validator.isValidPlay(chosenNumber)) {
-            recordPlayedCard(chosenNumber);
-            model.advancePlayer();
-            setViewForNewPlayer();
+        while(!validator.isValidPlay(chosenNumber)) {
+            view.respondInvalidChoice();
+            view.displayCurrentTrick();
+            view.requestPlay();
         }
+        recordPlayedCard(chosenNumber);
+        model.advancePlayer();
+        setViewForNewPlayer();
         if(roundCompleted()) {
             model.setCurrentRound(model.getCurrentRound() + 1);
             model.assignTrickToWinner();
+            view.announceTrickWinner(model.getCurrentPlayer().getName());
             model.createNewTrick();
         }
         if(model.getCurrentHand().size() > 0){
+            view.setCurrentPlayerName(model.getCurrentPlayer().getName());
+            view.setHand(model.getCurrentPlayer().getHand());
+            view.setCurrentTrick(model.getTrick());
             view.displayCurrentTrick();
             view.requestPlay();
         }
@@ -55,7 +61,7 @@ public class RoundPresenter {
             view.requestPlay();
         }
         else {
-            view.gameOver();
+            view.gameOver(model.getGameWinner().getName());
         }
     }
 
