@@ -24,21 +24,19 @@ public class RoundPresenter {
 
     public void initialize() {
         view.addViewListener("cardPlayed", event -> handleCardPlayed(event));
-        view.setCurrentPlayerName(model.getCurrentPlayer().getName());
-        view.setHand(model.getCurrentPlayer().getHand());
-        view.requestPlay();
+        setViewForPlayer();
+        requestPlay();
     }
 
     public void handleCardPlayed(PropertyChangeEvent event) {
         Integer chosenNumber = getIntegerValueForEvent(event);
         while(!validator.isValidPlay(chosenNumber)) {
             view.respondInvalidChoice();
-            view.displayCurrentTrick();
-            view.requestPlay();
+            requestPlay();
         }
         recordPlayedCard(chosenNumber);
         model.advancePlayer();
-        setViewForNewPlayer();
+        setViewForPlayer();
         if(roundCompleted()) {
             model.setCurrentRound(model.getCurrentRound() + 1);
             model.assignTrickToWinner();
@@ -46,26 +44,31 @@ public class RoundPresenter {
             model.createNewTrick();
         }
         if(model.getCurrentHand().size() > 0){
-            view.setCurrentPlayerName(model.getCurrentPlayer().getName());
-            view.setHand(model.getCurrentPlayer().getHand());
-            view.setCurrentTrick(model.getTrick());
-            view.displayCurrentTrick();
-            view.requestPlay();
+            setViewForPlayer();
+            requestPlay();
         }
         else if(model.hasNextRound()) {
-            Deck.Deck().resetDeck();
-            Deck.Deck().shuffle();
-            Deck.Deck().deal(model.getPlayerModels());
-            view.setCurrentPlayerName(model.getCurrentPlayer().getName());
-            view.setHand(model.getCurrentPlayer().getHand());
-            view.requestPlay();
+            dealNewRound();
+            setViewForPlayer();
+            requestPlay();
         }
         else {
             view.gameOver(model.getGameWinner().getName());
         }
     }
 
-    private void setViewForNewPlayer() {
+    private void requestPlay() {
+        view.displayCurrentTrick();
+        view.requestPlay();
+    }
+
+    private void dealNewRound() {
+        Deck.Deck().resetDeck();
+        Deck.Deck().shuffle();
+        Deck.Deck().deal(model.getPlayerModels());
+    }
+
+    private void setViewForPlayer() {
         view.setCurrentPlayerName(model.getCurrentPlayer().getName());
         view.setHand(model.getCurrentHand());
         view.setCurrentTrick(model.getTrick());
