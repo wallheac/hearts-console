@@ -16,7 +16,7 @@ public class Deck {
     private List<Card> cards;
 
     private Deck() {
-        cards = new ArrayList(Arrays.asList(Card.values()));
+        cards = new ArrayList<>(Arrays.asList(Card.values()));
     }
 
     public static Deck Deck() {
@@ -31,9 +31,14 @@ public class Deck {
     }
 
     public void deal(List<PlayerModel> players) {
-        int numberOfPlayers = 4;
-        int deckSize = cards.size();
-        players.stream().forEach(player -> player.setStartingHand(drawHand(deckSize / numberOfPlayers)));
+        if(players.size() == 3) {
+            removeCard(Card.TwoDiamonds);
+        }
+        if(players.size() == 5) {
+            removeCard(Card.TwoDiamonds, Card.TwoClubs);
+        }
+        Integer deckSize = cards.size();
+        players.forEach(player -> player.setStartingHand(drawHand(deckSize / players.size())));
     }
 
     @Override
@@ -62,10 +67,9 @@ public class Deck {
                 .collect(Collectors.toList()).toString());
     }
 
-    //TODO this was here to deal with 3 and 5 player games. May need to remove
-    public void removeCard(Suit suit, Rank rank) {
+    public void removeCard(Card... toRemove) {
         this.cards = cards.stream()
-                .filter(card -> !(card.getSuit().equals(suit) && card.getRank().equals(rank)))
+                .filter(card -> !(Arrays.asList(toRemove).contains(card)))
                 .collect(Collectors.toList());
     }
 

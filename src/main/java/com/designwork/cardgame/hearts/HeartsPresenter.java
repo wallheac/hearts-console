@@ -50,9 +50,9 @@ public class HeartsPresenter {
     protected void registerPlayers() {
         do {
             heartsView.requestPlayerName();
-            if (playerModels.size() < 4) {
+            if (playerModels.size() < 5) {
                 heartsView.requestAdditionalPlayers();
             }
-        } while ("y".equals(additionalPlayer) && playerModels.size() < 4);
+        } while ("y".equals(additionalPlayer) && playerModels.size() < 5);
     }
 }
