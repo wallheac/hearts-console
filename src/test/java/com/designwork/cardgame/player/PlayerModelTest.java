@@ -11,18 +11,18 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class PlayerModelTest {
 
-    private PlayerModel playerModel = new PlayerModel("Amy");
+    private final PlayerModel playerModel = new PlayerModel("Amy");
 
     @Test(expected = UnsupportedOperationException.class)
     public void setStartingHandCreatesUnmodifiableList() throws UnsupportedOperationException {
-       playerModel.setStartingHand(Arrays.asList(Card.FiveClubs, Card.TwoClubs));
-       List<Card> hand = playerModel.getHand();
+        playerModel.setStartingHand(Arrays.asList(Card.FiveClubs, Card.TwoClubs));
+        List<Card> hand = playerModel.getHand();
 
-       hand.add(Card.ThreeClubs);
+        hand.add(Card.ThreeClubs);
     }
 
     @Test
@@ -33,7 +33,7 @@ public class PlayerModelTest {
         List<Card> actual = playerModel.getHand();
 
         assertThat(actual.size(), is(2));
-        assert(actual.containsAll(Arrays.asList(Card.ThreeClubs, Card.TwoClubs)));
+        assert (actual.containsAll(Arrays.asList(Card.ThreeClubs, Card.TwoClubs)));
     }
 
     @Test(expected = UnsupportedOperationException.class)
@@ -46,14 +46,14 @@ public class PlayerModelTest {
     }
 
     @Test
-    public void recordPlayedCardCausesCardNotToBeReturnedFromGetHand () {
+    public void recordPlayedCardCausesCardNotToBeReturnedFromGetHand() {
         playerModel.setStartingHand(Arrays.asList(Card.FiveClubs, Card.TwoClubs, Card.FourClubs));
         playerModel.recordPlayedCard(Card.FiveClubs);
 
         List<Card> actual = playerModel.getHand();
 
         assertThat(actual.size(), is(2));
-        assert(actual.containsAll(Arrays.asList(Card.FourClubs, Card.TwoClubs)));
+        assert (actual.containsAll(Arrays.asList(Card.FourClubs, Card.TwoClubs)));
     }
 
     @Test
@@ -67,7 +67,7 @@ public class PlayerModelTest {
 
         Integer result = playerModel.getScore();
 
-        assert(result == 3);
+        assert (result == 3);
     }
 
     @Test
@@ -81,7 +81,7 @@ public class PlayerModelTest {
 
         Integer result = playerModel.getScore();
 
-        assert(result == 13);
+        assert (result == 13);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class PlayerModelTest {
 
         Integer result = playerModel.getScore();
 
-        assert(result == 15);
+        assert (result == 15);
     }
 
     @Test
@@ -109,6 +109,6 @@ public class PlayerModelTest {
 
         Integer result = playerModel.getScore();
 
-        assert(result == 0);
+        assert (result == 0);
     }
 }

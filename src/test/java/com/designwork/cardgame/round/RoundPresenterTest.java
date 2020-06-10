@@ -49,7 +49,7 @@ public class RoundPresenterTest {
 
         verify(roundModel).advancePlayer();
         verify(roundModel).recordPlayedCard(Card.ThreeClubs);
-        verify(roundModel,times(3)).getCurrentPlayer();
+        verify(roundModel, times(3)).getCurrentPlayer();
         verify(roundView, times(2)).setCurrentPlayerName("Charlotte");
         verify(roundView, times(2)).setHand(playerModel.getHand());
         verify(roundView, times(2)).setCurrentTrick(trick);

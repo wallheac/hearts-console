@@ -30,29 +30,27 @@ public class RoundPresenter {
 
     public void handleCardPlayed(PropertyChangeEvent event) {
         Integer chosenNumber = getIntegerValueForEvent(event);
-        while(!validator.isValidPlay(chosenNumber)) {
+        while (!validator.isValidPlay(chosenNumber)) {
             view.respondInvalidChoice();
             requestPlay();
         }
         recordPlayedCard(chosenNumber);
         model.advancePlayer();
         setViewForPlayer();
-        if(roundCompleted()) {
+        if (roundCompleted()) {
             model.setCurrentRound(model.getCurrentRound() + 1);
             model.assignTrickToWinner();
             view.announceTrickWinner(model.getCurrentPlayer().getName());
             model.createNewTrick();
         }
-        if(model.getCurrentHand().size() > 0){
+        if (model.getCurrentHand().size() > 0) {
             setViewForPlayer();
             requestPlay();
-        }
-        else if(model.hasNextRound()) {
+        } else if (model.hasNextRound()) {
             dealNewRound();
             setViewForPlayer();
             requestPlay();
-        }
-        else {
+        } else {
             view.gameOver(model.getGameWinner().getName());
         }
     }

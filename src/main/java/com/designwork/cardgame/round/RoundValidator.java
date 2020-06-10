@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class RoundValidator {
 
-    private RoundModel model;
+    private final RoundModel model;
 
     public RoundValidator(RoundModel model) {
         this.model = model;
@@ -28,10 +28,7 @@ public class RoundValidator {
         if (heartsLed(card) && !(model.heartsBroken() || hasOnlyHearts())) {
             return false;
         }
-         if (model.getTrickSize() > 0 && sameSuitInHand(model.getTrick().getLed()) && !followsSuit(card)) {
-            return false;
-        }
-        return true;
+        return model.getTrickSize() <= 0 || !sameSuitInHand(model.getTrick().getLed()) || followsSuit(card);
     }
 
     private boolean heartsLed(Card card) {

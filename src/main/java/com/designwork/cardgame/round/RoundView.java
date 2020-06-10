@@ -1,9 +1,9 @@
 package com.designwork.cardgame.round;
 
+import com.designwork.cardgame.Trick;
 import com.designwork.cardgame.card.Card;
 import com.designwork.cardgame.commons.ui.AbstractView;
 import com.designwork.cardgame.commons.util.ConsoleInputUtil;
-import com.designwork.cardgame.Trick;
 
 import java.util.List;
 
@@ -57,6 +57,6 @@ public class RoundView extends AbstractView {
     }
 
     public void announceTrickWinner(String name) {
-        System.out.println( "\n" + name + " wins this trick\n\n");
+        System.out.println("\n" + name + " wins this trick\n\n");
     }
 }

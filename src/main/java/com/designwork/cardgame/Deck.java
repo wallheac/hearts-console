@@ -1,8 +1,6 @@
 package com.designwork.cardgame;
 
 import com.designwork.cardgame.card.Card;
-import com.designwork.cardgame.card.Rank;
-import com.designwork.cardgame.card.Suit;
 import com.designwork.cardgame.player.PlayerModel;
 
 import java.util.ArrayList;
@@ -31,10 +29,10 @@ public class Deck {
     }
 
     public void deal(List<PlayerModel> players) {
-        if(players.size() == 3) {
+        if (players.size() == 3) {
             removeCard(Card.TwoDiamonds);
         }
-        if(players.size() == 5) {
+        if (players.size() == 5) {
             removeCard(Card.TwoDiamonds, Card.TwoClubs);
         }
         Integer deckSize = cards.size();

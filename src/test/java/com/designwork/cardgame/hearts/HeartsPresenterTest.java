@@ -21,7 +21,7 @@ public class HeartsPresenterTest {
     HeartsView heartsView;
 
     @Test
-    public void handlePlayerAddedAddsPlayerModel () {
+    public void handlePlayerAddedAddsPlayerModel() {
         List<PlayerModel> playerModels = new ArrayList<>();
         heartsPresenter = new HeartsPresenter(new HeartsView(), playerModels, "n");
         PropertyChangeEvent event = new PropertyChangeEvent(heartsView, null, null, "Ted");

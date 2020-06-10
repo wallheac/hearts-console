@@ -1,6 +1,5 @@
 package com.designwork.cardgame;
 
-import com.designwork.cardgame.Pair;
 import com.designwork.cardgame.card.Card;
 import com.designwork.cardgame.card.Suit;
 
@@ -10,7 +9,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class Trick {
-    private List<Pair<UUID, Card>> cards;
+    private final List<Pair<UUID, Card>> cards;
 
     public Trick() {
         cards = new ArrayList();

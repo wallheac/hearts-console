@@ -53,11 +53,11 @@ public class PlayerModel {
 
     public Integer getScore() {
         Integer score = 0;
-        for (Trick trick: this.tricksTaken) {
-            if(trick.containsHeart()) {
+        for (Trick trick : this.tricksTaken) {
+            if (trick.containsHeart()) {
                 score++;
             }
-            if(trick.containsQueenOfSpades()) {
+            if (trick.containsQueenOfSpades()) {
                 score += QUEEN_OF_SPADES_PENALTY_AMOUNT;
             }
         }
