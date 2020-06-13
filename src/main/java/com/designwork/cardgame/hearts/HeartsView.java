@@ -1,9 +1,10 @@
 package com.designwork.cardgame.hearts;
 
 import com.designwork.cardgame.commons.ui.AbstractView;
+import com.designwork.cardgame.commons.ui.View;
 import com.designwork.cardgame.commons.util.ConsoleInputUtil;
 
-public class HeartsView extends AbstractView implements IHeartsView {
+public class HeartsView extends AbstractView implements View {
     private final ConsoleInputUtil consoleInputUtil;
 
     public HeartsView() {

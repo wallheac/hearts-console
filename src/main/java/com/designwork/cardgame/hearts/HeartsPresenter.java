@@ -1,6 +1,7 @@
 package com.designwork.cardgame.hearts;
 
 import com.designwork.cardgame.Deck;
+import com.designwork.cardgame.commons.ui.View;
 import com.designwork.cardgame.player.PlayerModel;
 import com.designwork.cardgame.round.RoundModel;
 import com.designwork.cardgame.round.RoundPresenter;
@@ -10,15 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HeartsPresenter {
-    private final IHeartsView heartsView;
+    private final View heartsView;
     private RoundModel roundModel;
     private final List<PlayerModel> playerModels;
 
-    public HeartsPresenter(IHeartsView heartsView) {
+    public HeartsPresenter(View heartsView) {
         this(heartsView, new ArrayList<>());
     }
 
-    protected HeartsPresenter(IHeartsView heartsView, List<PlayerModel> playerModels) {
+    protected HeartsPresenter(View heartsView, List<PlayerModel> playerModels) {
         this.heartsView = heartsView;
         this.playerModels = playerModels;
     }

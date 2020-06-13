@@ -2,6 +2,7 @@ package com.designwork.cardgame.hearts;
 
 
 import com.designwork.cardgame.commons.ui.AbstractView;
+import com.designwork.cardgame.commons.ui.View;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.util.Arrays;
 import java.util.List;
 
-public class HeartsGuiView extends AbstractView implements IHeartsView {
+public class HeartsGuiView extends AbstractView implements View {
     private List<PlayerEntryPanel> playerEntryPanels;
 
     public HeartsGuiView() {
