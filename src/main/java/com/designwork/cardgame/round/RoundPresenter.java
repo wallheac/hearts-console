@@ -12,7 +12,7 @@ public class RoundPresenter {
 
     public RoundPresenter(RoundModel model) {
         this.model = model;
-        this.view = new RoundView(this);
+        this.view = new RoundView();
         this.validator = new RoundValidator(model);
     }
 

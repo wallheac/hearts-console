@@ -23,7 +23,7 @@ public class HeartsPresenterTest {
     @Test
     public void handlePlayerAddedAddsPlayerModel() {
         List<PlayerModel> playerModels = new ArrayList<>();
-        heartsPresenter = new HeartsPresenter(new HeartsView(), playerModels, "n");
+        heartsPresenter = new HeartsPresenter(new HeartsView(), playerModels);
         PropertyChangeEvent event = new PropertyChangeEvent(heartsView, null, null, "Ted");
 
         heartsPresenter.handlePlayerAdded(event);

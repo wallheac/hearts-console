@@ -13,8 +13,7 @@ public class RoundView extends AbstractView {
     private List<Card> hand;
     private Trick currentTrick;
 
-    public RoundView(RoundPresenter roundPresenter) {
-//        addViewListener("cardPlayed", roundPresenter::handleCardPlayed);
+    public RoundView() {
     }
 
     public void requestPlay() {

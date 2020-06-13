@@ -3,11 +3,16 @@ package com.designwork.cardgame.hearts;
 import com.designwork.cardgame.commons.ui.AbstractView;
 import com.designwork.cardgame.commons.util.ConsoleInputUtil;
 
-public class HeartsView extends AbstractView {
+public class HeartsView extends AbstractView implements IHeartsView {
     private final ConsoleInputUtil consoleInputUtil;
 
-    HeartsView() {
+    public HeartsView() {
         consoleInputUtil = new ConsoleInputUtil();
+    }
+
+    @Override
+    public void initialize() {
+        registerPlayers();
     }
 
     public void requestPlayerName() {
@@ -16,9 +21,21 @@ public class HeartsView extends AbstractView {
         setValue("playerAdded", null, name);
     }
 
-    public void requestAdditionalPlayers() {
+    public String requestAdditionalPlayers() {
         System.out.println("Would you like to add a player? y/n");
-        String another = consoleInputUtil.requestTextInput();
-        setValue("another", null, another);
+        return consoleInputUtil.requestTextInput();
+    }
+
+    protected void registerPlayers() {
+        String additionalPlayer = "n";
+        Integer playerCount = 0;
+        do {
+            requestPlayerName();
+            playerCount++;
+            if (playerCount < 5) {
+                additionalPlayer = requestAdditionalPlayers();
+            }
+        } while ("y".equals(additionalPlayer) && playerCount < 5);
+        setValue("submit", null, null);
     }
 }

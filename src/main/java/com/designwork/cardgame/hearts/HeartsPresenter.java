@@ -10,49 +10,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HeartsPresenter {
-    private final HeartsView heartsView;
+    private final IHeartsView heartsView;
     private RoundModel roundModel;
     private final List<PlayerModel> playerModels;
-    private String additionalPlayer;
 
-    public HeartsPresenter() {
-        this(new HeartsView(), new ArrayList<>(), "n");
+    public HeartsPresenter(IHeartsView heartsView) {
+        this(heartsView, new ArrayList<>());
     }
 
-    protected HeartsPresenter(HeartsView heartsView, List<PlayerModel> playerModels, String additionalPlayer) {
+    protected HeartsPresenter(IHeartsView heartsView, List<PlayerModel> playerModels) {
         this.heartsView = heartsView;
         this.playerModels = playerModels;
-        this.additionalPlayer = additionalPlayer;
     }
 
     public void initialize() {
         heartsView.addViewListener("playerAdded", this::handlePlayerAdded);
-        heartsView.addViewListener("another", this::handleAddingAnotherPlayer);
-        registerPlayers();
-        Deck.Deck().shuffle();
-        Deck.Deck().deal(playerModels);
-        roundModel = new RoundModel(playerModels);
-        new RoundPresenter(roundModel).initialize();
+        heartsView.addViewListener("submit", this::handleSubmit);
+        heartsView.initialize();
     }
 
     public void handlePlayerAdded(PropertyChangeEvent event) {
         addPlayerModel((String) event.getNewValue());
     }
 
-    public void handleAddingAnotherPlayer(PropertyChangeEvent event) {
-        additionalPlayer = (String) event.getNewValue();
+    public void handleSubmit(PropertyChangeEvent event) {
+        Deck.Deck().shuffle();
+        Deck.Deck().deal(playerModels);
+        roundModel = new RoundModel(playerModels);
+        new RoundPresenter(roundModel).initialize();
     }
 
     private void addPlayerModel(String name) {
         playerModels.add(new PlayerModel(name));
-    }
-
-    protected void registerPlayers() {
-        do {
-            heartsView.requestPlayerName();
-            if (playerModels.size() < 5) {
-                heartsView.requestAdditionalPlayers();
-            }
-        } while ("y".equals(additionalPlayer) && playerModels.size() < 5);
     }
 }
