@@ -24,10 +24,9 @@ public class HeartsPresenter {
         this.playerModels = playerModels;
     }
 
-    public void initialize() {
+    public void initializeView() {
         heartsView.addViewListener("playerAdded", this::handlePlayerAdded);
         heartsView.addViewListener("submit", this::handleSubmit);
-        heartsView.initialize();
     }
 
     public void handlePlayerAdded(PropertyChangeEvent event) {

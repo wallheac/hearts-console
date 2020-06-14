@@ -1,5 +1,6 @@
 package com.designwork.cardgame;
 
+import com.designwork.cardgame.hearts.GameView;
 import com.designwork.cardgame.hearts.HeartsGuiView;
 import com.designwork.cardgame.hearts.HeartsPresenter;
 
@@ -17,7 +18,8 @@ import com.designwork.cardgame.hearts.HeartsPresenter;
 
 public class Main {
     public static void main(String[] args) {
-        HeartsPresenter heartsPresenter = new HeartsPresenter(new HeartsGuiView());
-        heartsPresenter.initialize();
+//        HeartsPresenter heartsPresenter = new HeartsPresenter(new HeartsGuiView());
+//        heartsPresenter.initializeView();
+        new GameView().initialize();
     }
 }

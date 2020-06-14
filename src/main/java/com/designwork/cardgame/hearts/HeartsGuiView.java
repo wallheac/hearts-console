@@ -7,6 +7,7 @@ import com.designwork.cardgame.commons.ui.View;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,14 +24,14 @@ public class HeartsGuiView extends AbstractView implements View {
         createDialog();
     }
 
-    private void createDialog() {
-        JFrame frame = new JFrame("Test");
-        frame.setSize(1400, 1400);
+    private Dialog createDialog() {
+         return createDialog(new JFrame());
+    }
 
-        JButton submitButton = new JButton("Submit");
-        submitButton.setPreferredSize(new Dimension(300, 150));
-        submitButton.setFont(new Font("SansSerif", Font.PLAIN, 36));
-        submitButton.addActionListener(e -> okClicked(e));
+    public Dialog createDialog(JFrame frame) {
+        Dialog dialog =  new Dialog(frame);
+        dialog.setSize(1000, 1000);
+        dialog.setTitle("Player Entry");
 
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -43,16 +44,17 @@ public class HeartsGuiView extends AbstractView implements View {
             panel.add(playerEntryPanels.get(i), constraints);
         }
 
-        constraints.fill = GridBagConstraints.NONE;
-        constraints.anchor = GridBagConstraints.WEST;
-        constraints.gridy = 6;
-        panel.add(submitButton, constraints);
+        JPanel dialogContent = dialog.getPanelByName("main content");
+        dialogContent.add(panel);
 
-        frame.add(panel);
-        frame.setVisible(true);
+        JButton submitButton = dialog.getSubmitButton();
+        submitButton.addActionListener(e -> submitClicked(e));
+
+        dialog.setVisible(true);
+        return dialog;
     }
 
-    private void okClicked(ActionEvent e) {
+    private void submitClicked(ActionEvent e) {
         playerEntryPanels.forEach(playerEntryPanel -> {
             if (!playerEntryPanel.getText().isEmpty()) {
                 setValue("playerAdded", null, playerEntryPanel.getText());
