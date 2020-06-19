@@ -6,20 +6,20 @@ import com.designwork.cardgame.card.Card;
 import com.designwork.cardgame.card.Suit;
 import com.designwork.cardgame.player.PlayerModel;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class RoundModel {
 
-    private final List<PlayerModel> playerModels;
+    private List<PlayerModel> playerModels;
     private Trick trick;
     private PlayerModel currentPlayer;
     private Integer currentRound;
 
-    public RoundModel(List<PlayerModel> playerModels) {
-        this(playerModels, 1, new Trick());
+    public RoundModel() {
+        this(new ArrayList<>(), 1, new Trick());
     }
 
     public RoundModel(List<PlayerModel> playerModels,
@@ -40,17 +40,20 @@ public class RoundModel {
         trick.addCardToTrick(currentPlayer.getUuid(), card);
     }
 
-    PlayerModel findStartingPlayer() {
-        int numberOfPlayers = playerModels.size();
-        if (numberOfPlayers == 5) {
-            return playerModels.stream().filter(player -> player.getHand().contains(Card.ThreeClubs))
-                    .collect(Collectors.toList()).get(0);
-        } else {
-            return playerModels.stream().filter(player ->
-                    player.getHand().contains(Card.TwoClubs))
-                    .collect(Collectors.toList())
-                    .get(0);
+    public PlayerModel findStartingPlayer() {
+        if(playerModels.size() > 0) {
+            int numberOfPlayers = playerModels.size();
+            if (numberOfPlayers == 5) {
+                return playerModels.stream().filter(player -> player.getHand().contains(Card.ThreeClubs))
+                        .collect(Collectors.toList()).get(0);
+            } else {
+                return playerModels.stream().filter(player ->
+                        player.getHand().contains(Card.TwoClubs))
+                        .collect(Collectors.toList())
+                        .get(0);
+            }
         }
+        return null;
     }
 
     public void assignTrickToWinner() {
@@ -140,7 +143,11 @@ public class RoundModel {
         return this.trick;
     }
 
-    protected List<PlayerModel> getPlayerModels() {
-        return Collections.unmodifiableList(this.playerModels);
+    public List<PlayerModel> getPlayerModels() {
+        return this.playerModels;
+    }
+
+    public void setPlayerModels(List<PlayerModel> playerModels) {
+        this.playerModels = playerModels;
     }
 }

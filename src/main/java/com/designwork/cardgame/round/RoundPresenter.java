@@ -7,16 +7,16 @@ import java.beans.PropertyChangeEvent;
 public class RoundPresenter {
 
     private final RoundModel model;
-    private final RoundView view;
+    private final IRoundView view;
     private final RoundValidator validator;
 
-    public RoundPresenter(RoundModel model) {
+    public RoundPresenter(RoundModel model, IRoundView view) {
         this.model = model;
-        this.view = new RoundView();
+        this.view = view;
         this.validator = new RoundValidator(model);
     }
 
-    protected RoundPresenter(RoundModel model, RoundView roundView, RoundValidator roundValidator) {
+    protected RoundPresenter(RoundModel model, IRoundView roundView, RoundValidator roundValidator) {
         this.model = model;
         this.view = roundView;
         this.validator = roundValidator;

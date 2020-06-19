@@ -7,29 +7,18 @@ import com.designwork.cardgame.commons.ui.View;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 
-public class HeartsGuiView extends AbstractView implements View {
-    private List<PlayerEntryPanel> playerEntryPanels;
+public class HeartsGuiDialog extends AbstractView implements View {
+    private final List<PlayerEntryPanel> playerEntryPanels;
+    private final Dialog dialog;
 
-    public HeartsGuiView() {
+    public HeartsGuiDialog(JFrame frame) {
         this.playerEntryPanels = Arrays.asList(new PlayerEntryPanel(), new PlayerEntryPanel(),
                 new PlayerEntryPanel(), new PlayerEntryPanel(), new PlayerEntryPanel());
-    }
 
-    @Override
-    public void initialize() {
-        createDialog();
-    }
-
-    private Dialog createDialog() {
-         return createDialog(new JFrame());
-    }
-
-    public Dialog createDialog(JFrame frame) {
-        Dialog dialog =  new Dialog(frame);
+        Dialog dialog = new Dialog(frame);
         dialog.setSize(1000, 1000);
         dialog.setTitle("Player Entry");
 
@@ -44,17 +33,16 @@ public class HeartsGuiView extends AbstractView implements View {
             panel.add(playerEntryPanels.get(i), constraints);
         }
 
-        JPanel dialogContent = dialog.getPanelByName("main content");
-        dialogContent.add(panel);
+        dialog.getPanelByName("main content").add(panel);
 
-        JButton submitButton = dialog.getSubmitButton();
-        submitButton.addActionListener(e -> submitClicked(e));
+        dialog.getSubmitButton().addActionListener(this::submitClicked);
 
         dialog.setVisible(true);
-        return dialog;
+        this.dialog = dialog;
     }
 
     private void submitClicked(ActionEvent e) {
+        dialog.close();
         playerEntryPanels.forEach(playerEntryPanel -> {
             if (!playerEntryPanel.getText().isEmpty()) {
                 setValue("playerAdded", null, playerEntryPanel.getText());
@@ -62,4 +50,10 @@ public class HeartsGuiView extends AbstractView implements View {
         });
         setValue("submit", null, null);
     }
+
+    @Override
+    public void initialize() {
+
+    }
 }
+

@@ -51,7 +51,7 @@ public class Deck {
             hand.add(cards.get(i));
         }
         removeHandFromDeck(numberOfCards);
-        printHand(hand);
+//        printHand(hand);
         return hand;
     }
 

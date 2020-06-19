@@ -3,18 +3,21 @@ package com.designwork.cardgame.round;
 import com.designwork.cardgame.Trick;
 import com.designwork.cardgame.card.Card;
 import com.designwork.cardgame.commons.ui.AbstractView;
-import com.designwork.cardgame.commons.ui.View;
 import com.designwork.cardgame.commons.util.ConsoleInputUtil;
 
+import javax.swing.*;
 import java.util.List;
 
-public class RoundView extends AbstractView implements View {
+public class RoundGuiView extends AbstractView implements IRoundView {
 
     private String currentPlayerName;
     private List<Card> hand;
     private Trick currentTrick;
+    private JFrame gameFrame;
 
-    public RoundView() {
+    public RoundGuiView(JFrame frame) {
+        super();
+        this.gameFrame = frame;
     }
 
     public void requestPlay() {
@@ -29,7 +32,7 @@ public class RoundView extends AbstractView implements View {
         System.out.println("\nGame Over\n" + name + " wins!");
     }
 
-    private void displayHand() {
+    public void displayHand() {
         for (int i = 0; i < hand.size(); i++) {
             System.out.println(i + ". " + hand.get(i).prettyPrint());
         }
@@ -59,6 +62,7 @@ public class RoundView extends AbstractView implements View {
     public void announceTrickWinner(String name) {
         System.out.println("\n" + name + " wins this trick\n\n");
     }
+
 
     @Override
     public void initialize() {

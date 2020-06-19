@@ -23,7 +23,7 @@ public class RoundPresenterTest {
     @Mock
     private RoundModel roundModel;
     @Mock
-    private RoundView roundView;
+    private IRoundView roundView;
 
     private RoundPresenter roundPresenter;
 

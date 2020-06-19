@@ -2,11 +2,11 @@ package com.designwork.cardgame.hearts;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.Arrays;
 import java.util.List;
 
 public class Dialog extends JDialog {
+
 
     public Dialog(JFrame owner) {
         super(owner);
@@ -42,15 +42,13 @@ public class Dialog extends JDialog {
         add(buttonPanel, constraints);
     }
 
-    private void closeDialog(ActionEvent e) {
-        this.dispose();
+    public void close() {
+        dispose();
     }
-
-
 
     public JPanel getPanelByName(String name) {
         List<Component> widgets = Arrays.asList(getContentPane().getComponents());
-        return (JPanel)widgets.stream()
+        return (JPanel) widgets.stream()
                 .filter(widget -> widget.getName().equals(name))
                 .findFirst()
                 .get();

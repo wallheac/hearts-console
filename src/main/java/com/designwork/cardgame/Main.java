@@ -1,8 +1,7 @@
 package com.designwork.cardgame;
 
 import com.designwork.cardgame.hearts.GameView;
-import com.designwork.cardgame.hearts.HeartsGuiView;
-import com.designwork.cardgame.hearts.HeartsPresenter;
+
 
 /*
  * Step one:
