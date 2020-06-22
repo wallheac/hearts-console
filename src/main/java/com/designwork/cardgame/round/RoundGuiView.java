@@ -4,9 +4,12 @@ import com.designwork.cardgame.Trick;
 import com.designwork.cardgame.card.Card;
 import com.designwork.cardgame.commons.ui.AbstractView;
 import com.designwork.cardgame.commons.util.ConsoleInputUtil;
+import com.designwork.cardgame.hearts.PlayerPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RoundGuiView extends AbstractView implements IRoundView {
 
@@ -14,10 +17,38 @@ public class RoundGuiView extends AbstractView implements IRoundView {
     private List<Card> hand;
     private Trick currentTrick;
     private JFrame gameFrame;
+    private PlayerPanel playerPanel;
 
     public RoundGuiView(JFrame frame) {
         super();
         this.gameFrame = frame;
+        playerPanel = new PlayerPanel();
+
+
+
+        gameFrame.setContentPane(playerPanel);
+        gameFrame.setVisible(true);
+    }
+
+    @Override
+    public void initialize() {
+        JPanel content = playerPanel.getMainPanel();
+
+
+        CardListView handView = new CardListView(hand);
+        handView.setPreferredSize(new Dimension(400, 400));
+        content.add(handView);
+
+        CardListView trickView = new CardListView(
+                currentTrick.getCards().stream()
+                .map(uuidCardPair -> uuidCardPair.getSecond())
+                .collect(Collectors.toList()));
+        trickView.setPreferredSize(new Dimension(400, 400));
+        content.add(trickView);
+//        gameFrame.revalidate();
+//        gameFrame.repaint();
+
+
     }
 
     public void requestPlay() {
@@ -53,6 +84,7 @@ public class RoundGuiView extends AbstractView implements IRoundView {
 
     public void setHand(List<Card> hand) {
         this.hand = hand;
+//        playerPanel.setHand(hand);
     }
 
     public void setCurrentTrick(Trick trick) {
@@ -63,9 +95,4 @@ public class RoundGuiView extends AbstractView implements IRoundView {
         System.out.println("\n" + name + " wins this trick\n\n");
     }
 
-
-    @Override
-    public void initialize() {
-
-    }
 }

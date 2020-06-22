@@ -18,7 +18,7 @@ public class HeartsGuiDialog extends AbstractView implements View {
         this.playerEntryPanels = Arrays.asList(new PlayerEntryPanel(), new PlayerEntryPanel(),
                 new PlayerEntryPanel(), new PlayerEntryPanel(), new PlayerEntryPanel());
 
-        Dialog dialog = new Dialog(frame);
+        dialog = new Dialog(frame);
         dialog.setSize(1000, 1000);
         dialog.setTitle("Player Entry");
 
@@ -33,22 +33,20 @@ public class HeartsGuiDialog extends AbstractView implements View {
             panel.add(playerEntryPanels.get(i), constraints);
         }
 
-        dialog.getPanelByName("main content").add(panel);
-
-        dialog.getSubmitButton().addActionListener(this::submitClicked);
+        dialog.getMainContentPanel().add(panel);
+        dialog.addSubmitButtonListener(this::submitClicked);
 
         dialog.setVisible(true);
-        this.dialog = dialog;
     }
 
     private void submitClicked(ActionEvent e) {
-        dialog.close();
-        playerEntryPanels.forEach(playerEntryPanel -> {
-            if (!playerEntryPanel.getText().isEmpty()) {
-                setValue("playerAdded", null, playerEntryPanel.getText());
-            }
-        });
-        setValue("submit", null, null);
+             dialog.close();
+             playerEntryPanels.forEach(playerEntryPanel -> {
+                 if (!playerEntryPanel.getText().isEmpty()) {
+                     setValue("playerAdded", null, playerEntryPanel.getText());
+                 }
+             });
+             setValue("submit", null, null);
     }
 
     @Override

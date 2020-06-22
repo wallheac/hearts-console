@@ -25,6 +25,7 @@ public class RoundPresenter {
     public void initialize() {
         view.addViewListener("cardPlayed", event -> handleCardPlayed(event));
         setViewForPlayer();
+        view.initialize();
         requestPlay();
     }
 

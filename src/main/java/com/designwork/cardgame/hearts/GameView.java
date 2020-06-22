@@ -14,18 +14,17 @@ public class GameView extends AbstractView implements View {
     }
 
     public void initialize() {
-        JFrame frame = new JFrame("Game");
-        frame.setSize(1400, 1400);
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("Game");
+            frame.setSize(1400, 1400);
 
-        HeartsGuiDialog heartsGuiDialog = new HeartsGuiDialog(frame);
-        frame.setVisible(true);
+            HeartsGuiDialog heartsGuiDialog = new HeartsGuiDialog(frame);
+            RoundModel roundModel = new RoundModel();
+            RoundGuiView roundView = new RoundGuiView(frame);
+            HeartsPresenter heartsPresenter = new HeartsPresenter(heartsGuiDialog, roundModel, roundView);
+            heartsPresenter.initializeView();
+        });
 
-        RoundModel roundModel = new RoundModel();
-        RoundGuiView roundView = new RoundGuiView(frame);
-        HeartsPresenter heartsPresenter = new HeartsPresenter(heartsGuiDialog, roundModel, roundView);
-
-        RoundGuiView roundGuiView = new RoundGuiView(frame);
-        heartsPresenter.initializeView();
     }
 
     @Override

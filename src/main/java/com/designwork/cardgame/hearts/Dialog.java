@@ -2,11 +2,13 @@ package com.designwork.cardgame.hearts;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 
 public class Dialog extends JDialog {
-
+    JButton submitButton;
+    JPanel mainPanel;
 
     public Dialog(JFrame owner) {
         super(owner);
@@ -14,7 +16,7 @@ public class Dialog extends JDialog {
         GridBagLayout layout = new GridBagLayout();
         setLayout(layout);
 
-        JPanel mainPanel = new JPanel(layout);
+        mainPanel = new JPanel(layout);
         mainPanel.setName("main content");
 
         GridBagConstraints constraints = new GridBagConstraints();
@@ -23,7 +25,7 @@ public class Dialog extends JDialog {
         constraints.gridy = 0;
         add(mainPanel, constraints);
 
-        JButton submitButton = new JButton("Submit");
+        submitButton = new JButton("Submit");
         submitButton.setPreferredSize(new Dimension(300, 150));
         submitButton.setFont(new Font("SansSerif", Font.PLAIN, 36));
 
@@ -46,6 +48,10 @@ public class Dialog extends JDialog {
         dispose();
     }
 
+    public JPanel getMainContentPanel() {
+        return mainPanel;
+    }
+
     public JPanel getPanelByName(String name) {
         List<Component> widgets = Arrays.asList(getContentPane().getComponents());
         return (JPanel) widgets.stream()
@@ -54,9 +60,7 @@ public class Dialog extends JDialog {
                 .get();
     }
 
-    public JButton getSubmitButton() {
-        JPanel submitPanel = getPanelByName("submit button");
-        return (JButton) submitPanel.getComponent(0);
+    public void addSubmitButtonListener(ActionListener listener) {
+        submitButton.addActionListener(listener);
     }
-
 }
