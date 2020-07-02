@@ -20,7 +20,7 @@ public interface IRoundView extends View {
         System.out.println("You chose an invalid card. Please try again");
     }
 
-  void setCurrentPlayerName(String currentPlayerName);
+    void setCurrentPlayerName(String currentPlayerName);
 
     void setHand(List<Card> hand);
 

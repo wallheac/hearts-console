@@ -1,7 +1,7 @@
 package com.designwork.cardgame.hearts;
 
 
-import com.designwork.cardgame.commons.ui.AbstractView;
+import com.designwork.cardgame.commons.ui.AbstractSwingView;
 import com.designwork.cardgame.commons.ui.View;
 
 import javax.swing.*;
@@ -10,11 +10,13 @@ import java.awt.event.ActionEvent;
 import java.util.Arrays;
 import java.util.List;
 
-public class HeartsGuiDialog extends AbstractView implements View {
+public class HeartsGuiDialog extends AbstractSwingView implements View {
     private final List<PlayerEntryPanel> playerEntryPanels;
     private final Dialog dialog;
+    private final JFrame frame;
 
     public HeartsGuiDialog(JFrame frame) {
+        this.frame = frame;
         this.playerEntryPanels = Arrays.asList(new PlayerEntryPanel(), new PlayerEntryPanel(),
                 new PlayerEntryPanel(), new PlayerEntryPanel(), new PlayerEntryPanel());
 
@@ -40,13 +42,14 @@ public class HeartsGuiDialog extends AbstractView implements View {
     }
 
     private void submitClicked(ActionEvent e) {
-             dialog.close();
-             playerEntryPanels.forEach(playerEntryPanel -> {
-                 if (!playerEntryPanel.getText().isEmpty()) {
-                     setValue("playerAdded", null, playerEntryPanel.getText());
-                 }
-             });
-             setValue("submit", null, null);
+        dialog.close();
+        playerEntryPanels.forEach(playerEntryPanel -> {
+            if (!playerEntryPanel.getText().isEmpty()) {
+                setValue("playerAdded", null, playerEntryPanel.getText());
+            }
+        });
+        setValue("submit", null, null);
+
     }
 
     @Override

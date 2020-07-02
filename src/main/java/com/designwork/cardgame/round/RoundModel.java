@@ -41,7 +41,7 @@ public class RoundModel {
     }
 
     public PlayerModel findStartingPlayer() {
-        if(playerModels.size() > 0) {
+        if (playerModels.size() > 0) {
             int numberOfPlayers = playerModels.size();
             if (numberOfPlayers == 5) {
                 return playerModels.stream().filter(player -> player.getHand().contains(Card.ThreeClubs))

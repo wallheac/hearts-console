@@ -14,8 +14,8 @@ public class HeartsPresenter {
 
     private final View heartsView;
     private final IRoundView roundView;
-    private RoundModel roundModel;
-    private List<PlayerModel> playerModels;
+    private final RoundModel roundModel;
+    private final List<PlayerModel> playerModels;
 
     public HeartsPresenter(View heartsView) {
 

@@ -1,10 +1,10 @@
 package com.designwork.cardgame.commons.ui;
 
+import javax.swing.event.SwingPropertyChangeSupport;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
-public class AbstractView implements View {
-    protected final PropertyChangeSupport support = new PropertyChangeSupport(this);
+public class AbstractSwingView {
+    protected final SwingPropertyChangeSupport support = new SwingPropertyChangeSupport(this, true);
 
     public void addViewListener(String propertyName, PropertyChangeListener viewListener) {
         support.addPropertyChangeListener(propertyName, viewListener);
@@ -20,10 +20,5 @@ public class AbstractView implements View {
 
     public <T> void setValue(String propertyName, T oldValue, T newValue) {
         support.firePropertyChange(propertyName, oldValue, newValue);
-    }
-
-    @Override
-    public void initialize() {
-
     }
 }

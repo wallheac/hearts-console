@@ -2,7 +2,6 @@ package com.designwork.cardgame;
 
 import com.designwork.cardgame.hearts.GameView;
 
-
 /*
  * Step one:
  *   -- create deck, create players, deal 13 cards to 4 players, display each player's hand
@@ -17,8 +16,8 @@ import com.designwork.cardgame.hearts.GameView;
 
 public class Main {
     public static void main(String[] args) {
-//        HeartsPresenter heartsPresenter = new HeartsPresenter(new HeartsGuiView());
-//        heartsPresenter.initializeView();
+        // HeartsPresenter heartsPresenter = new HeartsPresenter(new HeartsGuiView());
+        // heartsPresenter.initializeView();
         new GameView().initialize();
     }
 }
