@@ -20,11 +20,18 @@ public class CardListView extends JPanel implements ChangeListener {
 
     public CardListView(List<Card> hand) {
         this.hand = hand;
+        setLayout(new GridBagLayout());
+
         for (Card card : hand) {
             JLabel label = new JLabel();
+            label.setPreferredSize(new Dimension(100, 300));
             URL imageUrl = getClass().getResource(card.getIconId());
             if (imageUrl != null) {
-                label.setIcon(new ImageIcon(imageUrl));
+                label.setIcon(
+                        new ImageIcon(
+                                new ImageIcon(imageUrl)
+                                        .getImage()
+                                        .getScaledInstance(150, 250, Image.SCALE_SMOOTH)));
             }
             add(label);
         }
