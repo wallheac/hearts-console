@@ -31,9 +31,10 @@ public class RoundPresenter {
 
     public void handleCardPlayed(PropertyChangeEvent event) {
         Integer chosenNumber = getIntegerValueForEvent(event);
-        while (!validator.isValidPlay(chosenNumber)) {
+        if (!validator.isValidPlay(chosenNumber)) {
             view.respondInvalidChoice();
             requestPlay();
+            return;
         }
         recordPlayedCard(chosenNumber);
         model.advancePlayer();

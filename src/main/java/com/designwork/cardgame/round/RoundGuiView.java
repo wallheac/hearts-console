@@ -6,6 +6,7 @@ import com.designwork.cardgame.commons.ui.AbstractSwingView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.List;
 
 public class RoundGuiView extends AbstractSwingView implements IRoundView {
@@ -24,28 +25,33 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
 
     @Override
     public void initialize() {
+        handView = new CardListView(hand);
         gameFrame.setVisible(true);
     }
 
     public void requestPlay() {
-//        System.out.println("Current Player: " + currentPlayerName);
-//        System.out.println("Please choose a card to play: ");
-//        displayHand();
-//        Integer cardNumber = ConsoleInputUtil.requestNumericInput();
-//        setValue("cardPlayed", null, cardNumber.toString());
-        handView = new CardListView(hand);
-        handView.setPreferredSize(new Dimension(400, 400));
-        gameFrame.add(handView);
+        displayHandForPlayer();
+    }
+
+    private void cardClicked(ActionEvent event) {
+        Integer index = hand.indexOf(Card.getByIconId(event.getActionCommand()));
+        setValue("cardPlayed", null, index.toString());
     }
 
     public void gameOver(String name) {
         System.out.println("\nGame Over\n" + name + " wins!");
     }
 
-    public void displayHand() {
-        for (int i = 0; i < hand.size(); i++) {
-            System.out.println(i + ". " + hand.get(i).prettyPrint());
-        }
+    public void displayHandForPlayer() {
+        JLabel playerName = new JLabel(currentPlayerName);
+        playerName.setFont(new Font("SansSerif", Font.PLAIN, 36));
+        gameFrame.add(playerName);
+        handView.setHand(hand);
+        handView.displayHand();
+        handView.setPreferredSize(new Dimension(400, 400));
+        handView.addCardClickedListener(this::cardClicked);
+        gameFrame.add(handView);
+        gameFrame.validate();
     }
 
     public void displayCurrentTrick() {
@@ -54,7 +60,9 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
     }
 
     public void respondInvalidChoice() {
-        System.out.println("You chose an invalid card. Please try again");
+        JLabel invalidChoice = new JLabel("You chose an invalid card. Please try again");
+        gameFrame.add(invalidChoice);
+        gameFrame.revalidate();
     }
 
     public void setCurrentPlayerName(String currentPlayerName) {

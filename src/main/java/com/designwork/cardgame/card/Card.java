@@ -66,9 +66,9 @@ public enum Card {
         this.iconId = iconId;
     }
 
-    public static Card getByNumber(Integer number) {
+    public static Card getByIconId(String iconId) {
         return Arrays.stream(Card.values())
-                .filter(card -> card.getRank().getNumber() == number)
+                .filter(card -> card.getIconId() == iconId)
                 .findFirst()
                 .orElse(null);
     }

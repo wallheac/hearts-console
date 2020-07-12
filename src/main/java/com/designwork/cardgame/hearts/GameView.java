@@ -16,7 +16,7 @@ public class GameView extends AbstractView implements View {
     public void initialize() {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("Game");
-            frame.setSize(1400, 1400);
+            frame.setSize(2000, 1400);
 
             HeartsGuiDialog heartsGuiDialog = new HeartsGuiDialog(frame);
             RoundModel roundModel = new RoundModel();

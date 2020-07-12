@@ -12,7 +12,7 @@ public interface IRoundView extends View {
 
     void gameOver(String name);
 
-    void displayHand();
+    void displayHandForPlayer();
 
     void displayCurrentTrick();
 
