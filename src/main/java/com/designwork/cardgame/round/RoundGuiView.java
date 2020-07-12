@@ -25,7 +25,8 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
 
     @Override
     public void initialize() {
-        handView = new CardListView(hand);
+        handView = new CardListView();
+        handView.setHand(hand);
         gameFrame.setVisible(true);
     }
 
@@ -56,7 +57,7 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
 
     public void displayCurrentTrick() {
         System.out.println("Current trick: ");
-        currentTrick.getCards().stream().forEach(card -> System.out.println(card.getSecond().prettyPrint()));
+        currentTrick.getCards().forEach(card -> System.out.println(card.getSecond().prettyPrint()));
     }
 
     public void respondInvalidChoice() {

@@ -15,13 +15,7 @@ public class CardListView extends JPanel {
 
     public CardListView() {
         this.hand = new ArrayList<>();
-
-    }
-
-    public CardListView(List<Card> hand) {
-        this.hand = hand;
         setLayout(new GridBagLayout());
-        displayHand();
     }
 
     void displayHand() {
@@ -51,10 +45,11 @@ public class CardListView extends JPanel {
         this.cardButtons = new ArrayList<>();
         removeAll();
         revalidate();
+        repaint();
     }
 
     public void addCardClickedListener(ActionListener listener) {
-        this.cardButtons.stream().forEach(button -> button.addActionListener(listener));
+        this.cardButtons.forEach(button -> button.addActionListener(listener));
     }
 
     public void setHand(List<Card> hand) {
