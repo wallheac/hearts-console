@@ -11,6 +11,7 @@ import java.util.List;
 
 public class RoundGuiView extends AbstractSwingView implements IRoundView {
 
+    private final JPanel mainPanel;
     private String currentPlayerName;
     private List<Card> hand;
     private Trick currentTrick;
@@ -21,12 +22,17 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
     public RoundGuiView(JFrame frame) {
         super();
         this.gameFrame = frame;
+        mainPanel = new JPanel();
+        mainPanel.setName("round main content");
+        mainPanel.setLayout(new GridBagLayout());
+        gameFrame.add(mainPanel);
     }
 
     @Override
     public void initialize() {
         handView = new CardListView();
-        handView.setHand(hand);
+        handView.setBackground(new Color(0, 82, 33));
+        handView.setCards(hand);
         gameFrame.setVisible(true);
     }
 
@@ -44,14 +50,19 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
     }
 
     public void displayHandForPlayer() {
-        JLabel playerName = new JLabel(currentPlayerName);
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridy = 0;
+        JLabel playerName = new JLabel("Current Player: " + currentPlayerName);
         playerName.setFont(new Font("SansSerif", Font.PLAIN, 36));
-        gameFrame.add(playerName);
-        handView.setHand(hand);
-        handView.displayHand();
-        handView.setPreferredSize(new Dimension(400, 400));
+        mainPanel.add(playerName, c);
+        c.gridy = 1;
+        c.weighty = 1.0;
+        c.fill = GridBagConstraints.BOTH;
+        handView.setCards(hand);
+        handView.displayCards();
         handView.addCardClickedListener(this::cardClicked);
-        gameFrame.add(handView);
+        mainPanel.add(handView, c);
         gameFrame.validate();
     }
 

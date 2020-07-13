@@ -1,6 +1,7 @@
 package com.designwork.cardgame.round;
 
 import com.designwork.cardgame.card.Card;
+import com.designwork.cardgame.commons.ui.WrapLayout;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,17 +11,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CardListView extends JPanel {
-    private List<Card> hand;
+    private List<Card> cards;
     private List<JButton> cardButtons = new ArrayList<>();
 
     public CardListView() {
-        this.hand = new ArrayList<>();
-        setLayout(new GridBagLayout());
+        this.cards = new ArrayList<>();
+        setLayout(new WrapLayout(WrapLayout.LEFT));
     }
 
-    void displayHand() {
+    void displayCards() {
         resetCards();
-        for (Card card : hand) {
+        for (Card card : cards) {
             JButton button = new JButton();
             button.setPreferredSize(new Dimension(150, 250));
             button.setActionCommand(card.getIconId());
@@ -52,8 +53,7 @@ public class CardListView extends JPanel {
         this.cardButtons.forEach(button -> button.addActionListener(listener));
     }
 
-    public void setHand(List<Card> hand) {
-        this.hand = hand;
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
     }
-
 }
