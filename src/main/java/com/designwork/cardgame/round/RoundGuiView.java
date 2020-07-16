@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RoundGuiView extends AbstractSwingView implements IRoundView {
 
@@ -17,6 +18,7 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
     private Trick currentTrick;
     private final JFrame gameFrame;
     private CardListView handView;
+    private CardListView trickView;
 
 
     public RoundGuiView(JFrame frame) {
@@ -33,6 +35,7 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
         handView = new CardListView();
         handView.setBackground(new Color(0, 82, 33));
         handView.setCards(hand);
+        trickView = new CardListView();
         gameFrame.setVisible(true);
     }
 
@@ -67,6 +70,15 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
     }
 
     public void displayCurrentTrick() {
+        trickView.setCards(currentTrick.getCards().stream().map(card -> card.getSecond()).collect(Collectors.toList()));
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridy = 2;
+        c.weighty = 1.0;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        trickView.displayCards();
+        mainPanel.add(trickView, c);
+        gameFrame.validate();
+
         System.out.println("Current trick: ");
         currentTrick.getCards().forEach(card -> System.out.println(card.getSecond().prettyPrint()));
     }
