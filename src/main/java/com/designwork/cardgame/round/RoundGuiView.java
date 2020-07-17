@@ -7,6 +7,7 @@ import com.designwork.cardgame.commons.ui.AbstractSwingView;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,6 +36,15 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
         handView = new CardListView();
         handView.setBackground(new Color(0, 82, 33));
         handView.setCards(hand);
+
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridy = 2;
+        JLabel currentTrickLabel = new JLabel("Current Trick:");
+        currentTrickLabel.setName("current trick");
+        currentTrickLabel.setFont(new Font("SansSerif", Font.PLAIN, 36));
+
+        mainPanel.add(currentTrickLabel, c);
         trickView = new CardListView();
         gameFrame.setVisible(true);
     }
@@ -56,7 +66,9 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridy = 0;
-        JLabel playerName = new JLabel("Current Player: " + currentPlayerName);
+        JLabel playerName = (JLabel) getJLabelByName("current player");
+        playerName.setName("current player");
+        playerName.setText("Current Player: " + currentPlayerName);
         playerName.setFont(new Font("SansSerif", Font.PLAIN, 36));
         mainPanel.add(playerName, c);
         c.gridy = 1;
@@ -70,11 +82,11 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
     }
 
     public void displayCurrentTrick() {
-        trickView.setCards(currentTrick.getCards().stream().map(card -> card.getSecond()).collect(Collectors.toList()));
         GridBagConstraints c = new GridBagConstraints();
-        c.gridy = 2;
+        c.gridy = 3;
         c.weighty = 1.0;
         c.fill = GridBagConstraints.HORIZONTAL;
+        trickView.setCards(currentTrick.getCards().stream().map(card -> card.getSecond()).collect(Collectors.toList()));
         trickView.displayCards();
         mainPanel.add(trickView, c);
         gameFrame.validate();
@@ -105,4 +117,17 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
         System.out.println("\n" + name + " wins this trick\n\n");
     }
 
+    public Component getJLabelByName(String name) {
+        List<Component> labels = Arrays.asList(mainPanel.getComponents())
+                .stream()
+                .filter(widget -> widget instanceof JLabel)
+                .collect(Collectors.toList());
+        if(labels.isEmpty()) {
+            return new JLabel();
+        }
+        return labels.stream()
+                .filter(widget -> widget.getName().equals(name))
+                .findFirst()
+                .orElse(new JLabel());
+    }
 }
