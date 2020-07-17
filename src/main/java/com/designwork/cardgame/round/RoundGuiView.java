@@ -20,6 +20,8 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
     private final JFrame gameFrame;
     private CardListView handView;
     private CardListView trickView;
+    private JLabel invalidChoice;
+    private JLabel playerName;
 
 
     public RoundGuiView(JFrame frame) {
@@ -33,19 +35,39 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
 
     @Override
     public void initialize() {
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridy = 0;
+        c.gridx = 0;
+        playerName = (JLabel) getJLabelByName("current player");
+        playerName.setName("current player");
+        playerName.setFont(new Font("SansSerif", Font.PLAIN, 36));
+        mainPanel.add(playerName, c);
+
+        invalidChoice = new JLabel("You chose an invalid card. Please try again");
+        invalidChoice.setFont(new Font("SansSerif", Font.PLAIN, 36));
+        invalidChoice.setForeground(Color.RED);
+        invalidChoice.setName("invalid choice");
+        invalidChoice.setVisible(false);
+        c.gridy = 1;
+        mainPanel.add(invalidChoice, c);
+
         handView = new CardListView();
         handView.setBackground(new Color(0, 82, 33));
         handView.setCards(hand);
 
-        GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridy = 2;
+        c.gridy = 3;
         JLabel currentTrickLabel = new JLabel("Current Trick:");
         currentTrickLabel.setName("current trick");
         currentTrickLabel.setFont(new Font("SansSerif", Font.PLAIN, 36));
-
         mainPanel.add(currentTrickLabel, c);
+
         trickView = new CardListView();
+        c.gridy = 4;
+        c.weighty = 1.0;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        mainPanel.add(trickView, c);
+
         gameFrame.setVisible(true);
     }
 
@@ -54,6 +76,7 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
     }
 
     private void cardClicked(ActionEvent event) {
+        invalidChoice.setVisible(false);
         Integer index = hand.indexOf(Card.getByIconId(event.getActionCommand()));
         setValue("cardPlayed", null, index.toString());
     }
@@ -63,15 +86,10 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
     }
 
     public void displayHandForPlayer() {
-        GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridy = 0;
-        JLabel playerName = (JLabel) getJLabelByName("current player");
-        playerName.setName("current player");
         playerName.setText("Current Player: " + currentPlayerName);
-        playerName.setFont(new Font("SansSerif", Font.PLAIN, 36));
-        mainPanel.add(playerName, c);
-        c.gridy = 1;
+
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridy = 2;
         c.weighty = 1.0;
         c.fill = GridBagConstraints.BOTH;
         handView.setCards(hand);
@@ -82,23 +100,14 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
     }
 
     public void displayCurrentTrick() {
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridy = 3;
-        c.weighty = 1.0;
-        c.fill = GridBagConstraints.HORIZONTAL;
         trickView.setCards(currentTrick.getCards().stream().map(card -> card.getSecond()).collect(Collectors.toList()));
         trickView.displayCards();
-        mainPanel.add(trickView, c);
         gameFrame.validate();
-
-        System.out.println("Current trick: ");
-        currentTrick.getCards().forEach(card -> System.out.println(card.getSecond().prettyPrint()));
     }
 
     public void respondInvalidChoice() {
-        JLabel invalidChoice = new JLabel("You chose an invalid card. Please try again");
-        gameFrame.add(invalidChoice);
-        gameFrame.revalidate();
+        invalidChoice.setVisible(true);
+        gameFrame.validate();
     }
 
     public void setCurrentPlayerName(String currentPlayerName) {
