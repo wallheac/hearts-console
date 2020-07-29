@@ -22,6 +22,7 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
     private CardListView trickView;
     private JLabel invalidChoice;
     private JLabel playerName;
+    private JLabel trickWinner;
 
 
     public RoundGuiView(JFrame frame) {
@@ -68,6 +69,13 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
         c.fill = GridBagConstraints.HORIZONTAL;
         mainPanel.add(trickView, c);
 
+        trickWinner = new JLabel();
+        trickWinner.setName("trick winner");
+        trickWinner.setFont(new Font("SansSerif", Font.PLAIN, 36));
+        trickWinner.setVisible(false);
+        c.gridy = 5;
+        mainPanel.add(trickWinner, c);
+
         gameFrame.setVisible(true);
     }
 
@@ -96,6 +104,9 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
         handView.displayCards();
         handView.addCardClickedListener(this::cardClicked);
         mainPanel.add(handView, c);
+        if(currentTrick.getSize() == 1) {
+            trickWinner.setVisible(false);
+        }
         gameFrame.validate();
     }
 
@@ -123,7 +134,9 @@ public class RoundGuiView extends AbstractSwingView implements IRoundView {
     }
 
     public void announceTrickWinner(String name) {
-        System.out.println("\n" + name + " wins this trick\n\n");
+        trickWinner.setText(name + " wins trick");
+        trickWinner.setVisible(true);
+        gameFrame.validate();
     }
 
     public Component getJLabelByName(String name) {
