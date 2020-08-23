@@ -3,6 +3,7 @@ package com.designwork.cardgame.player;
 import com.designwork.cardgame.Pair;
 import com.designwork.cardgame.Trick;
 import com.designwork.cardgame.card.Card;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ public class PlayerModelTest {
     }
 
     @Test
+    @Ignore
     public void getScoreReturnsTotalOfOnePenaltyPointForEachHeartInPlayersTricks() {
         UUID uuid = UUID.randomUUID();
         Trick trickOne = new Trick(Pair.of(uuid, Card.TwoDiamonds), Pair.of(uuid, Card.ThreeClubs),
