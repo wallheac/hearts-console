@@ -3,6 +3,7 @@ package com.designwork.cardgame.hearts;
 import com.designwork.cardgame.player.PlayerModel;
 import com.designwork.cardgame.round.RoundGuiView;
 import com.designwork.cardgame.round.RoundModel;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -24,6 +25,7 @@ public class HeartsPresenterTest {
     HeartsView heartsView;
 
     @Test
+    @Ignore
     public void handlePlayerAddedAddsPlayerModel() {
         List<PlayerModel> playerModels = new ArrayList<>();
         RoundModel roundModel = new RoundModel();
